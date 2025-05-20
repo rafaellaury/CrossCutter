@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Configuration>
+  <Element ID="gCrossCutRecipeXml" Type="mprecipexml" Description="mapp Link for MpRecipeXml">
+    <Group ID="mapp.Recipe.Xml" Description="Recipe configuration" />
+    <Selector ID="Alarms" Description="Not used">
+      <Group ID="DefaultAlarm" Description="mapp Alarms tied to recipe">
+        <Group ID="Alarms" Description="Alarm list" />
+      </Group>
+      <Selector ID="UserAlarm" Description="User defined alarms" />
+    </Selector>
+  </Element>
+</Configuration>

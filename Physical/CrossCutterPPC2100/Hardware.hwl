@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?AutomationStudio FileVersion="4.9"?>
+<BR.AS.HardwareTopology>
+  <TimeStamps>
+    <TimeStamp LogicalPath="CrossCutterPPC2100.Hardware.hw" LastWriteTime="05/20/2025 16:07:09" />
+  </TimeStamps>
+  <Modules>
+    <Module Name="5AP1120.121E-000" Type="5AP1120.121E-000" X="-94.79999" Y="90" />
+    <Module Name="5PPC2100_BY44_000" Type="5PPC2100.BY44-000" X="100.000015" Y="100" />
+    <Module Name="5ACCIF01.FPLK-000" Type="5ACCIF01.FPLK-000" X="105.000015" Y="113" />
+  </Modules>
+  <Links />
+  <InfoElements />
+</BR.AS.HardwareTopology>
