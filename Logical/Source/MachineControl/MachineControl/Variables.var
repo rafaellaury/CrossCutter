@@ -1,0 +1,19 @@
+(*local enumerators*)
+VAR
+	AutomaticState : AutomaticStateEnum := amINIT; (*Automatic mode state machine enumerator*)
+	OperatingState : OperatingStateEnum := ccMANUAL; (*Operating state enumerator, cross cutter starts in manual mode*)
+END_VAR
+(*local function blocks*)
+VAR
+	MpAxisCamSequencer_CrossCutter : MpAxisCamSequencer; (*Cam sequencer function block instance*)
+END_VAR
+(*local variables*)
+VAR
+	CamSequence : MpAxisCamSequenceDataType; (*Cam sequence data type*)
+	CamAutomatParameters : McAcpAxCamAutParType; (*Definition of the cam sequence*)
+	MpAxisCamSeqParameters : MpAxisCamSequencerParType := (CamSequence:=(Data:=(DataObjectName:='Feature_CrossCamAutomat'))); (*Parameter structure for the cam sequencer*)
+END_VAR
+(*local constants*)
+VAR CONSTANT
+	CAM_AUTOMAT_DECELERATION : REAL := 10000; (*Matching cam automat deceleration to cutter axis*)
+END_VAR

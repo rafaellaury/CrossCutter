@@ -5,5 +5,6 @@
     <Object Type="File" Description="Configuration for mapp View">Config.mappviewcfg</Object>
     <Object Type="File" Description="Visualization configuration">CrossVis.vis</Object>
     <Object Type="File" Description="Alarm page bindings">ContentAlarms.binding</Object>
+    <Object Type="File">ContentManual.binding</Object>
   </Objects>
 </Package>

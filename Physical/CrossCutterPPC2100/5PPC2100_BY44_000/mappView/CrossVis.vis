@@ -10,6 +10,7 @@
   <Navigations />
   <BindingsSets>
     <BindingsSet refId="ContentAlarms_binding" />
+    <BindingsSet refId="ContentManual_binding" />
   </BindingsSets>
   <EventBindingsSets />
   <Dialogs />

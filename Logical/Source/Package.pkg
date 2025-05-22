@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
 <Package xmlns="http://br-automation.co.at/AS/Package">
-  <Objects />
+  <Objects>
+    <Object Type="Package" Description="Main control package including state machine">MachineControl</Object>
+    <Object Type="Package" Description="Conveyor package">Conveyor</Object>
+    <Object Type="Package" Description="Cutter package">Cutter</Object>
+    <Object Type="Package" Description="Print mark detection package">PrintMarkDetect</Object>
+  </Objects>
 </Package>

@@ -2,7 +2,7 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Package SubType="mappMotion" PackageType="mappMotion" xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
-    <Object Type="File" Description="Axis for the cutter">Cutter.axis</Object>
-    <Object Type="File" Description="Axis for the conveyor">Conveyor.axis</Object>
+    <Object Type="Package" Description="Motion configurations for Cutter">Cutter</Object>
+    <Object Type="Package" Description="Motion configurations for Conveyor">Conveyor</Object>
   </Objects>
 </Package>

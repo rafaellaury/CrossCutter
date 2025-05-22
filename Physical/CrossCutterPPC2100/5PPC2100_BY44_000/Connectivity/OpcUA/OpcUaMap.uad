@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<OpcUaSource FileVersion="9" ArVersion="I4.83">
+  <Aliases>
+    <ACLAliases />
+    <EURangeViolationAliases />
+    <EURangesAliases />
+    <EngineeringUnitAliases />
+  </Aliases>
+  <DefaultView>
+    <Module Name="&lt;Default&gt;">
+      <GlobalVariables Name="Global Variables">
+        <Variable Name="ConveyorControl" RecursiveEnable="2" />
+        <Variable Name="CutterControl" RecursiveEnable="2" />
+      </GlobalVariables>
+      <Task Name="Cutter">
+        <Variable Name="MpAxisBasic_Cutter" RecursiveEnable="2" />
+      </Task>
+      <Task Name="Conveyor">
+        <Variable Name="MpAxisBasic_Conveyor" RecursiveEnable="2" />
+      </Task>
+    </Module>
+  </DefaultView>
+</OpcUaSource>

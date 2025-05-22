@@ -1,0 +1,4 @@
+(*global interface variables*)
+VAR
+	CutterControl : CutterControlType; (*Control structure for cutter*)
+END_VAR

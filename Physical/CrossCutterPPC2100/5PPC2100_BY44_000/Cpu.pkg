@@ -6,11 +6,11 @@
     <Object Type="File" Description="Permanent variables">Cpu.per</Object>
     <Object Type="File" Description="I/O mapping">IoMap.iom</Object>
     <Object Type="File" Description="Variable mapping">PvMap.vvm</Object>
-    <Object Type="Package" Description="Connectivity (NOT USED)">Connectivity</Object>
+    <Object Type="Package" Description="Connectivity for communication with mapp View">Connectivity</Object>
     <Object Type="Package" Description="Text system (NOT USED)">TextSystem</Object>
     <Object Type="Package" Description="Unit system (NOT USED)">UnitSystem</Object>
     <Object Type="Package" Description="Access and Security configuration (NOT USED)">AccessAndSecurity</Object>
-    <Object Type="Package" Description="mapp Control config package (NOT USED)">mappControl</Object>
+    <Object Type="Package" Description="mapp Control config package, used for RegMark">mappControl</Object>
     <Object Type="Package" Description="mapp Motion config package">mappMotion</Object>
     <Object Type="Package" Description="mapp Services config package">mappServices</Object>
     <Object Type="Package" Description="mapp View config package">mappView</Object>
@@ -22,6 +22,7 @@
     <Build GccVersion="4.1.2" />
     <DefaultTargetMemory Tasks="UserROM" />
     <Safety SafetyRelease="0.0" />
+    <Transfer SavedOfflineInstallationFolder="" SavedPipDestinationFolder="" SavedRuntimeUtilityCenterPackagePath="" />
     <Vc FirmwareVersion="V4.73.2" />
   </Configuration>
 </Cpu>

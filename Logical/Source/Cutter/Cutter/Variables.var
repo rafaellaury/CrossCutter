@@ -1,0 +1,24 @@
+(*local function blocks*)
+VAR
+	MpAxisBasic_Cutter : MpAxisBasic; (*MpAxisBasic function block for the Cutter*)
+	MC_BR_ProcessParID_Cutter : MC_BR_ProcessParID_AcpAx; (*MC_BR_ProcessParID_AcpAx function block to clear encoder error*)
+	MC_Halt_Cutter : MC_Halt; (*Halt function block*)
+END_VAR
+(*local structures*)
+VAR
+	MpAxisParametersCutter : MpAxisBasicParType; (*MpAxisBasicParType structure*)
+	EncoderProcessParIDType : McAcpAxProcessParIDType; (*McAcpAxProcessParIDType structure*)
+END_VAR
+(*local constants*)
+VAR CONSTANT
+	MAX_CUTTER_VELOCITY : REAL := 3500; (*Experimentally determined maximum velocity with lag error <1*)
+	MAX_CUTTER_DECELERATION : REAL := 30000; (*Experimentally determined maximum deleration with lag error <1*)
+	DEFAULT_CUTTER_POSITION : LREAL := 0; (*Cutter parked position*)
+	MAX_CUTTER_ACCELERATION : REAL := 30000; (*Experimentally determined maximum acceleration with lag error <1*)
+	ENCODER_COMMAND_PAR_ID : INT := 719; (*Encoder command ParID to clear poorly documented error*)
+	ENCODER_FIX_VALUE : UDINT := 1; (*Value to set ParID to to clear the encoder error*)
+END_VAR
+(*local variables*)
+VAR
+	MotionControlState : MotionControlEnum; (*Enumerator for the state machine*)
+END_VAR

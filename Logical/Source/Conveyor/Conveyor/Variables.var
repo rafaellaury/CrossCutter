@@ -1,0 +1,24 @@
+(*local function blocks*)
+VAR
+	MpAxisBasic_Conveyor : MpAxisBasic; (*MpAxisBasic function block for the conveyor*)
+	MC_BR_ProcessParID_Conveyor : MC_BR_ProcessParID_AcpAx; (*MC_BR_ProcessParID_AcpAx function block to clear encoder error*)
+	MC_Halt_Conveyor : MC_Halt; (*Halt function block*)
+END_VAR
+(*local structures*)
+VAR
+	MpAxisParametersConveyor : MpAxisBasicParType; (*MpAxisBasicParType structure*)
+	EncoderProcessParIDType : McAcpAxProcessParIDType; (*McAcpAxProcessParIDType structure*)
+END_VAR
+(*local constants*)
+VAR CONSTANT
+	MAX_CONVEYOR_VELOCITY : REAL := 1340; (*Experimentally determined maximum velocity with lag error <1*)
+	MAX_CONVEYOR_DECELERATION : REAL := 10000; (*Experimentally determined maximum deleration with lag error <1*)
+	MAX_CONVEYOR_ACCELERATION : REAL := 10000; (*Experimentally determined maximum acceleration with lag error <1*)
+	ENCODER_COMMAND_PAR_ID : INT := 719; (*Encoder command ParID to clear poorly documented error*)
+	ENCODER_FIX_VALUE : UDINT := 1; (*Value to set ParID to to clear the encoder error*)
+END_VAR
+(*local variables*)
+VAR
+	JogPositionCheckpoint : LREAL; (*Position checkpoint for jogging*)
+	MotionControlState : MotionControlEnum; (*Enumerator for the state machine*)
+END_VAR

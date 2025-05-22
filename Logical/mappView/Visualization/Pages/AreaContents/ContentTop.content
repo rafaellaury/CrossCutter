@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Content id="ContentTop" height="140" width="1280" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Content id="ContentTop" height="100" width="1280" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Widgets>
-    <Widget xsi:type="widgets.brease.Image" id="ImageBuRLogo" top="20" left="20" width="180" zIndex="0" image="Media/Images/BuR.png" tooltip="Automation is Orange" />
-    <Widget xsi:type="widgets.brease.Label" id="LabelTitle" top="20" left="260" width="400" height="100" zIndex="1" text="CrossCutter" fontSize="52px" style="Title1" />
-    <Widget xsi:type="widgets.brease.DateTimeOutput" id="DateTimeOutputHeader" top="40" left="999" width="262" height="60" zIndex="2" backColor="rgba(255, 255, 255, 0)" />
+    <Widget xsi:type="widgets.brease.Image" id="ImageBuRLogo" top="20" left="20" width="140" height="60" zIndex="0" image="Media/Images/BuR.png" tooltip="Automation is Orange" />
+    <Widget xsi:type="widgets.brease.Label" id="LabelTitle" top="0" left="200" width="400" height="100" zIndex="1" text="CrossCutter" fontSize="40px" style="Title1" />
+    <Widget xsi:type="widgets.brease.DateTimeOutput" id="DateTimeOutputHeader" top="20" left="960" width="300" height="60" zIndex="2" backColor="rgba(255, 255, 255, 0)" />
   </Widgets>
 </Content>

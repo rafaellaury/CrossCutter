@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BindingsSet id="ContentManual_binding" xmlns="http://www.br-automation.com/iat2015/binding/engineering/v2" xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2" xmlns:be="http://www.br-automation.com/iat2015/bindingListEmbedded/engineering/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Bindings>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Par.JogVelocity" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericInputVel" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Par.JogAcceleration" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericInputAccel" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Par.JogDeceleration" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericInputDecel" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Par.JogAcceleration" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericOutputAccel" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Par.JogVelocity" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericOutputVel" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Par.JogDeceleration" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericOutputDecel" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Cmd.JogBackward" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="MomentaryPushButtonConvJogb" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Cmd.JogForward" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="MomentaryPushButtonConvJogF" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::Cutter:MpAxisBasic_Cutter.MoveActive" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="ImageMoveActive" attribute="visible" />
+</Binding>
+
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Status.Error" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="ImageError" attribute="visible" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Status.Position" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericOutputPos" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::Conveyor:MpAxisBasic_Conveyor.Velocity" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericOutputVelocity" attribute="value" />
+		</Binding>
+		<Binding mode="twoWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Cmd.JogBackward" attribute="value" />
+			<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="MomentaryPushButtonCutterJogB" attribute="value" />
+		</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Cmd.JogForward" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="MomentaryPushButtonCutterJogF" attribute="value" />
+</Binding>
+
+
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::Cutter:MpAxisBasic_Cutter.MoveActive" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="ImageMoveActiveCutter" attribute="visible" />
+</Binding>
+
+
+
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Par.JogDeceleration" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericOutputDecel1" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Par.JogAcceleration" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericOutputAccel1" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Par.JogVelocity" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericInputVel1" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Par.JogVelocity" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericOutputVel1" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Par.JogAcceleration" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericInputAccel1" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Par.JogDeceleration" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericInputDecel1" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Status.Error" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="ImageError1" attribute="visible" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Status.Position" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericOutputPos1" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::Cutter:MpAxisBasic_Cutter.Velocity" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericOutputVelocity1" attribute="value" />
+</Binding>
+</Bindings>
+</BindingsSet>
