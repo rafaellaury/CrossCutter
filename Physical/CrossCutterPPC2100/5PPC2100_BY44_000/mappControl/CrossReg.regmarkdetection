@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Configuration>
+  <Element ID="gCrossCutRegMarkDetection" Type="regmarkdetection" Description="MpLink for the registration mark detector for Cross Cutter">
+    <Group ID="RegistrationMarkDetection">
+      <Selector ID="SensorSignal">
+        <Property ID="AxisReference" Value="gAxis_Conveyor" />
+      </Selector>
+      <Selector ID="Measurement" Value="MarkToCylinder">
+        <Group ID="Product">
+          <Selector ID="Position">
+            <Property ID="AxisReference" Value="gAxis_Conveyor" />
+          </Selector>
+          <Selector ID="Length">
+            <Property ID="Value" Value="70" Description="Length of the product (+-" />
+          </Selector>
+        </Group>
+      </Selector>
+      <Selector ID="Detection">
+        <Property ID="SetMarkPosition" Value="35" />
+        <Selector ID="ExpectationWindow">
+          <Selector ID="Shift">
+            <Property ID="Mode" Value="1" />
+          </Selector>
+          <Property ID="Width" Value="30" />
+        </Selector>
+        <Selector ID="MarkWidthMonitoring">
+          <Property ID="MinimumWidth" Value="8" />
+          <Property ID="MaximumWidth" Value="12" />
+        </Selector>
+      </Selector>
+      <Selector ID="Control" Value="ActualProductLength" />
+      <Group ID="OutputSignals">
+        <Property ID="ActualMarkPosition" Value="::PrintMarkControl.Status.ActualPosition" />
+        <Property ID="MarkPositionError" Value="::PrintMarkControl.Status.PositionError" />
+        <Property ID="ActualProductLength" Value="::PrintMarkControl.Status.LastPrintMarkWidth" />
+      </Group>
+    </Group>
+    <Selector ID="Alarms" Value="MpAlarmX" />
+  </Element>
+</Configuration>

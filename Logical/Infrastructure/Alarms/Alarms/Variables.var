@@ -1,0 +1,6 @@
+(*local variables*)
+VAR
+	MpAlarmXCore_0 : MpAlarmXCore; (*Core alarms function block instance*)
+	MpAlarmXHistory_0 : MpAlarmXHistory; (*Alarm history function block instance*)
+	MpAlarmXAcknowledgeAll_0 : MpAlarmXAcknowledgeAll; (*Alarm acknowledge all function block instance*)
+END_VAR

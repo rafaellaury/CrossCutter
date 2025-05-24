@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
 <Configuration>
-  <Element ID="Feature_CrossCamAutomat" Type="axisfeature" Description="Cross cutter cam automat axis feature">
+  <Element ID="CrossCamAut" Type="axisfeature" Description="Cross cutter cam automat axis feature">
     <Selector ID="Type" Value="CamAutomat">
       <Selector ID="CamAutomatType" Value="ACOPOS">
         <Group ID="CommonParameters">
           <Group ID="Master">
-            <Selector ID="ValueSource" Value="ActualPosition">
+            <Selector ID="ValueSource" Value="SetPosition">
               <Property ID="AxisReference" Value="gAxis_Conveyor" />
-              <Property ID="MaxVelocity" Value="1350" />
+              <Property ID="MaxVelocity" Value="300" />
             </Selector>
             <Property ID="StartPosition" Value="0.0" />
             <Selector ID="StartInterval" Value="MasterAxisPeriod" />
@@ -43,21 +43,21 @@
           </Group>
         </Group>
         <Group ID="States">
-          <Selector ID="State0" Value="Used">
+          <Selector ID="State0" Value="Used" Description="STATE 0 - Initial state">
             <Group ID="Events">
               <Group ID="Event[0]">
                 <Property ID="Type" Value="StateEnd" />
                 <Property ID="Transition" Value="Immediately" />
                 <Property ID="SynchronousUpdate" Value="NotUsed" />
-                <Property ID="NextState" Value="0" />
+                <Property ID="NextState" Value="1" />
               </Group>
             </Group>
           </Selector>
-          <Group ID="State[1]">
+          <Group ID="State[1]" Description="STATE 1 - waiting for product state">
             <Selector ID="Cam" Value="Predefined">
               <Property ID="PredefinedCam" Value="OneToOne" />
             </Selector>
-            <Property ID="MasterFactor" Value="1" />
+            <Property ID="MasterFactor" Value="100" />
             <Property ID="SlaveFactor" Value="0" />
             <Selector ID="CompensationMode" Value="NoCompensation" />
             <Group ID="AdvancedParameters">
@@ -68,52 +68,28 @@
             </Group>
             <Group ID="Events">
               <Group ID="Event[0]">
-                <Property ID="Type" Value="InputTrigger1PositiveEdge" />
+                <Property ID="Type" Value="Signal1FromPLC" />
                 <Property ID="Transition" Value="Immediately" />
                 <Property ID="SynchronousUpdate" Value="NotUsed" />
-                <Property ID="NextState" Value="1" />
+                <Property ID="NextState" Value="2" />
               </Group>
-            </Group>
-          </Group>
-          <Group ID="State[2]">
-            <Selector ID="Cam" Value="Predefined">
-              <Property ID="PredefinedCam" Value="OneToOne" />
-            </Selector>
-            <Property ID="MasterFactor" Value="11700" />
-            <Property ID="SlaveFactor" Value="36000" />
-            <Selector ID="CompensationMode" Value="DistancesBetweenExitEntryPoints">
-              <Property ID="MasterDistance" Value="97" />
-              <Property ID="SlaveDistance" Value="170" />
-              <Selector ID="AdvancedParameters" Value="NotUsed" />
-            </Selector>
-            <Group ID="AdvancedParameters">
-              <Property ID="RepeatCounterInit" Value="0" />
-              <Selector ID="MasterValueSource" Value="CommonMaster" />
-            </Group>
-            <Group ID="Events">
-              <Group ID="Event[0]">
+              <Group ID="Event[1]">
                 <Property ID="Type" Value="StateEnd" />
                 <Property ID="Transition" Value="EndOfState" />
                 <Property ID="SynchronousUpdate" Value="NotUsed" />
                 <Property ID="NextState" Value="1" />
               </Group>
-              <Group ID="Event[1]">
-                <Property ID="Type" Value="InputTrigger1PositiveEdge" />
-                <Property ID="Transition" Value="EndOfState" />
-                <Property ID="SynchronousUpdate" Value="NotUsed" />
-                <Property ID="NextState" Value="3" />
-              </Group>
             </Group>
           </Group>
-          <Group ID="State[3]">
+          <Group ID="State[2]" Description="STATE 2 - first cut after product is sensed">
             <Selector ID="Cam" Value="Predefined">
               <Property ID="PredefinedCam" Value="OneToOne" />
             </Selector>
-            <Property ID="MasterFactor" Value="7000" />
-            <Property ID="SlaveFactor" Value="36000" />
-            <Selector ID="CompensationMode" Value="DistancesBetweenCams">
-              <Property ID="MasterDistance" Value="50" />
-              <Property ID="SlaveDistance" Value="170" />
+            <Property ID="MasterFactor" Value="2000" />
+            <Property ID="SlaveFactor" Value="-2000" />
+            <Selector ID="CompensationMode" Value="DistancesBetweenCamCenterPoints">
+              <Property ID="MasterDistance" Value="97" />
+              <Property ID="SlaveDistance" Value="-180" />
               <Selector ID="AdvancedParameters" Value="NotUsed" />
             </Selector>
             <Group ID="AdvancedParameters">
@@ -122,10 +98,70 @@
             </Group>
             <Group ID="Events">
               <Group ID="Event[0]">
-                <Property ID="Type" Value="InputTrigger1PositiveEdge" />
+                <Property ID="Type" Value="Signal1FromPLC" />
                 <Property ID="Transition" Value="EndOfState" />
                 <Property ID="SynchronousUpdate" Value="NotUsed" />
                 <Property ID="NextState" Value="3" />
+              </Group>
+              <Group ID="Event[1]">
+                <Property ID="Type" Value="StateEnd" />
+                <Property ID="Transition" Value="EndOfState" />
+                <Property ID="SynchronousUpdate" Value="NotUsed" />
+                <Property ID="NextState" Value="4" />
+              </Group>
+            </Group>
+          </Group>
+          <Group ID="State[3]" Description="STATE 3 - continuous cutting, moves to state 4 to reset if no product is present">
+            <Selector ID="Cam" Value="Predefined">
+              <Property ID="PredefinedCam" Value="OneToOne" />
+            </Selector>
+            <Property ID="MasterFactor" Value="2000" />
+            <Property ID="SlaveFactor" Value="-2000" />
+            <Selector ID="CompensationMode" Value="DistancesBetweenCamCenterPoints">
+              <Property ID="MasterDistance" Value="70" />
+              <Property ID="SlaveDistance" Value="-360" />
+              <Selector ID="AdvancedParameters" Value="NotUsed" />
+            </Selector>
+            <Group ID="AdvancedParameters">
+              <Property ID="RepeatCounterInit" Value="0" />
+              <Selector ID="MasterValueSource" Value="CommonMaster" />
+            </Group>
+            <Group ID="Events">
+              <Group ID="Event[0]">
+                <Property ID="Type" Value="Signal1FromPLC" />
+                <Property ID="Transition" Value="EndOfState" />
+                <Property ID="SynchronousUpdate" Value="NotUsed" />
+                <Property ID="NextState" Value="3" />
+              </Group>
+              <Group ID="Event[1]">
+                <Property ID="Type" Value="StateEnd" />
+                <Property ID="Transition" Value="EndOfState" />
+                <Property ID="SynchronousUpdate" Value="NotUsed" />
+                <Property ID="NextState" Value="4" />
+              </Group>
+            </Group>
+          </Group>
+          <Group ID="State[4]" Description="STATE 4 - move the cutter back to wait state, or state 1 if another product is sensed">
+            <Selector ID="Cam" Value="Predefined">
+              <Property ID="PredefinedCam" Value="OneToOne" />
+            </Selector>
+            <Property ID="MasterFactor" Value="100" />
+            <Property ID="SlaveFactor" Value="0" />
+            <Selector ID="CompensationMode" Value="DistancesBetweenExitEntryPoints">
+              <Property ID="MasterDistance" Value="70" />
+              <Property ID="SlaveDistance" Value="-170" />
+              <Selector ID="AdvancedParameters" Value="NotUsed" />
+            </Selector>
+            <Group ID="AdvancedParameters">
+              <Property ID="RepeatCounterInit" Value="0" />
+              <Selector ID="MasterValueSource" Value="CommonMaster" />
+            </Group>
+            <Group ID="Events">
+              <Group ID="Event[0]">
+                <Property ID="Type" Value="Signal1FromPLC" />
+                <Property ID="Transition" Value="EndOfState" />
+                <Property ID="SynchronousUpdate" Value="NotUsed" />
+                <Property ID="NextState" Value="2" />
               </Group>
               <Group ID="Event[1]">
                 <Property ID="Type" Value="StateEnd" />

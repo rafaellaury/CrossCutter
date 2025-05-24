@@ -9,8 +9,8 @@
 
 #ifdef _DEFAULT_INCLUDES
 #include <AsDefault.h>
-#include <AsBrStr.h>
 #endif
+
 
 // Helper function to assign parameters cyclically
 void AssignParameters()
@@ -19,9 +19,13 @@ void AssignParameters()
 	MpAxisParametersConveyor.Velocity = ConveyorControl.Par.Velocity;
 	MpAxisParametersConveyor.Acceleration = ConveyorControl.Par.Acceleration;
 	MpAxisParametersConveyor.Deceleration = ConveyorControl.Par.Deceleration;
+	// Set jog parameters
 	MpAxisParametersConveyor.Jog.Velocity = ConveyorControl.Par.JogVelocity;
 	MpAxisParametersConveyor.Jog.Acceleration = ConveyorControl.Par.JogAcceleration;
 	MpAxisParametersConveyor.Jog.Deceleration = ConveyorControl.Par.JogDeceleration;
+	// Set the limits for jogging
+	MpAxisParametersConveyor.Jog.LimitPosition.FirstPosition = JogPositionLowerLimit;
+	MpAxisParametersConveyor.Jog.LimitPosition.LastPosition = JogPositionUpperLimit;
 }
 
 // Helper function to clear poorly documented encoder error
@@ -57,11 +61,9 @@ void _INIT ProgramInit(void)
 	MpAxisBasic_Conveyor.Enable = 1;
 	MpAxisBasic_Conveyor.MpLink = &gAxis_Conveyor;
 	
-	// Calling helper function to clear encoder error
-	ClearEncoderError();
-	
 	// Initializing MC_Halt function block
 	MC_Halt_Conveyor.Axis = &gAxis_Conveyor;
+	
 }
 
 void _CYCLIC ProgramCyclic(void)
@@ -77,31 +79,41 @@ void _CYCLIC ProgramCyclic(void)
 		
 		// Initial state, wait for Start command and then move to power on state
 		case mcINIT:
-			// = 'Conveyor initializing';
+			brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor initializing");
 			if (MpAxisBasic_Conveyor.Info.PLCopenState != mcAXIS_STARTUP && !MpAxisBasic_Conveyor.Error) {
-				//Status = 'Conveyor ready for command';
+				if (ErrorClearAttempt) {
+					MpAxisBasic_Conveyor.ErrorReset = 0;
+				}
+				ConveyorControl.Status.ReadyToStart = 1;
+				brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor ready to start");
 				if (ConveyorControl.Cmd.Start) {
-					ConveyorControl.Cmd.Start = 0;
 					if (MpAxisBasic_Conveyor.Info.ReadyToPowerOn) {
+						ConveyorControl.Status.ReadyToStart = 0;
+						// Calling helper function to clear encoder error
+						ClearEncoderError();
 						MotionControlState = mcPOWER;
-					} 
+					}
 				}
 			} else if (MpAxisBasic_Conveyor.Error) {
-				MotionControlState = mcERROR;
-				ConveyorControl.Status.Error = 1;
+				if (!ErrorClearAttempt) {
+					MpAxisBasic_Conveyor.ErrorReset = 1;
+					ErrorClearAttempt = 1;
+				} 
+				else {
+					ConveyorControl.Status.ReadyToStart = 0;
+					MotionControlState = mcERROR;
+					ConveyorControl.Status.Error = 1;
+				}
 			}
 			break;
 		
 		// Power state, if not already powered on, power on the axis and move on to home
 		case mcPOWER:
-			//brsmemset();
-			
-			//ConveyorControl.Status.Status = "Conveyor powering on";
+			brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor powering on");
 			if (!MpAxisBasic_Conveyor.PowerOn && !MpAxisBasic_Conveyor.Error) {
 				MpAxisBasic_Conveyor.Power = 1;
-				MotionControlState = mcHOME;
 			} else if (MpAxisBasic_Conveyor.PowerOn && !MpAxisBasic_Conveyor.Error) {
-				MotionControlState = mcHOME;	
+				MotionControlState = mcHOME;
 			} else if (MpAxisBasic_Conveyor.Error) {
 				MotionControlState = mcERROR;
 				ConveyorControl.Status.Error = 1;
@@ -110,49 +122,49 @@ void _CYCLIC ProgramCyclic(void)
 		
 		// Homing state, if not already homed, home the axis and move to ready for command
 		case mcHOME:
-			///////////ConveyorControl.Status.Status = "Conveyor homing";
+			brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor homing");
 			if (!MpAxisBasic_Conveyor.IsHomed && !MpAxisBasic_Conveyor.Error) {
 				MpAxisBasic_Conveyor.Home = 1;
 			} else if (MpAxisBasic_Conveyor.IsHomed && !MpAxisBasic_Conveyor.Error) {
 				MpAxisBasic_Conveyor.Home = 0;
 				ConveyorControl.Status.ReadyForCommand = 1;
+				// Setting the initial jog positions - 100mm lower than the current position
+				JogPositionLowerLimit = MpAxisBasic_Conveyor.Position - 100.0;
+				JogPositionUpperLimit = MpAxisBasic_Conveyor.Position + 1000.0;
 				MotionControlState = mcACTIVE;
 			} else if (MpAxisBasic_Conveyor.Error) {
 				MpAxisBasic_Conveyor.Home = 0;
 				MotionControlState = mcERROR;	
 			}
 			break;
-
 		// Active state, process run commands
 		case mcACTIVE:
 			if (ConveyorControl.Cmd.MoveVelocity && !MpAxisBasic_Conveyor.Error) {
-				///////////ConveyorControl.Status.Status = "Conveyor is moving";
+				brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor is moving");
 				MpAxisBasic_Conveyor.MoveVelocity = 1;
 				MpAxisBasic_Conveyor.JogPositive = 0;
 				MpAxisBasic_Conveyor.JogNegative = 0;
 			} else if (ConveyorControl.Cmd.JogForward && !MpAxisBasic_Conveyor.Error) {
-				///////////ConveyorControl.Status.Status = "Conveyor jogging forward";
+				brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor jogging forward");
 				MpAxisBasic_Conveyor.MoveVelocity = 0;
 				MpAxisBasic_Conveyor.JogPositive = 1;
 				MpAxisBasic_Conveyor.JogNegative = 0;
+				// Disabling the limits when jogging forward
+				JogPositionUpperLimit = 0;
+				JogPositionLowerLimit = 0;
+				// Resetting jog negative check
+				JogNegativeCheck = 0;
 			} else if (ConveyorControl.Cmd.JogBackward && !MpAxisBasic_Conveyor.Error) {
-				///////////ConveyorControl.Status.Status = "Conveyor jogging backward";
-				// Resetting Halt
-				if (MC_Halt_Conveyor.Execute) {
-					MC_Halt_Conveyor.Execute = 0;
+				// If it is the first time entering the loop or jog forward has just been used
+				if (!JogNegativeCheck) {
+					JogNegativeCheck = 1;
+					JogPositionLowerLimit = MpAxisBasic_Conveyor.Position - 100.0;
+					JogPositionUpperLimit = MpAxisBasic_Conveyor.Position;
 				}
+				brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor jogging backward");
 				MpAxisBasic_Conveyor.MoveVelocity = 0;
 				MpAxisBasic_Conveyor.JogPositive = 0;
-				if (!MpAxisBasic_Conveyor.JogNegative) {
-					JogPositionCheckpoint = MpAxisBasic_Conveyor.Position;
-					MpAxisBasic_Conveyor.JogNegative = 1;
-				} else {
-					if (MpAxisBasic_Conveyor.Position <= JogPositionCheckpoint - 100) {
-						MC_Halt_Conveyor.Execute = 1;
-						MpAxisBasic_Conveyor.JogNegative = 0;
-						ConveyorControl.Cmd.JogBackward = 0;
-					}
-				}
+				MpAxisBasic_Conveyor.JogNegative = 1;
 			} else if (MpAxisBasic_Conveyor.Error) {
 				MpAxisBasic_Conveyor.MoveVelocity = 0;
 				MpAxisBasic_Conveyor.JogPositive = 0;
@@ -160,20 +172,20 @@ void _CYCLIC ProgramCyclic(void)
 				MotionControlState = mcERROR;
 				ConveyorControl.Status.Error = 1;
 			} else {
+				brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor is active, ready for commands");
 				MpAxisBasic_Conveyor.MoveVelocity = 0;
 				MpAxisBasic_Conveyor.JogPositive = 0;
 				MpAxisBasic_Conveyor.JogNegative = 0;
-				///////////ConveyorControl.Status.Status = "Conveyor is active, ready for commands";
 			}
 			break;
 		
 		// Stop state, conveyor has been stopped
 		case mcSTOP:
+			brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor stopped");
 			ConveyorControl.Status.ReadyForCommand = 0;	
 			ConveyorControl.Cmd.MoveVelocity = 0;
 			ConveyorControl.Cmd.JogForward = 0;
 			ConveyorControl.Cmd.JogBackward = 0;
-			///////////ConveyorControl.Status.Status = "Conveyor stopped";
 			if (MpAxisBasic_Conveyor.MoveActive && !MpAxisBasic_Conveyor.Error) {
 				MC_Halt_Conveyor.Execute = 1;
 			} else if (MpAxisBasic_Conveyor.Error) {
@@ -189,7 +201,7 @@ void _CYCLIC ProgramCyclic(void)
 
 		// Error state, must reset to clear
 		case mcERROR:
-			///////////ConveyorControl.Status.Status = "Conveyor in error, needs to be reset";
+			brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor in error, needs to be reset");
 			// Reset when signal is received
 			ConveyorControl.Status.ReadyForCommand = 0;
 			ConveyorControl.Cmd.MoveVelocity = 0;
@@ -216,11 +228,12 @@ void _CYCLIC ProgramCyclic(void)
 	// Assigning the statuses to the control structure
 	ConveyorControl.Status.Error = MpAxisBasic_Conveyor.Error;
 	ConveyorControl.Status.Position = MpAxisBasic_Conveyor.Position;
+	ConveyorControl.Status.MoveActive = MpAxisBasic_Conveyor.MoveActive;
 	
 	// Calling MC_Halt function block cyclically and assigning deceleration
 	MC_Halt_Conveyor.Deceleration = MpAxisParametersConveyor.Deceleration;
 	MC_Halt(&MC_Halt_Conveyor);
-	
+
 }
 
 void _EXIT ProgramExit(void)

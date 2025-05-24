@@ -9,11 +9,16 @@ VAR
 END_VAR
 (*local variables*)
 VAR
+	ManualStart : BOOL;
+	AutomaticStart : BOOL;
+	AutomaticStop : BOOL; (*Stop button*)
 	CamSequence : MpAxisCamSequenceDataType; (*Cam sequence data type*)
+	CutterEnable : BOOL; (*Cutter enable*)
 	CamAutomatParameters : McAcpAxCamAutParType; (*Definition of the cam sequence*)
-	MpAxisCamSeqParameters : MpAxisCamSequencerParType := (CamSequence:=(Data:=(DataObjectName:='Feature_CrossCamAutomat'))); (*Parameter structure for the cam sequencer*)
+	MpAxisCamSeqParameters : MpAxisCamSequencerParType; (*Parameter structure for the cam sequencer*)
 END_VAR
 (*local constants*)
 VAR CONSTANT
+	STATE_STANDSTILL : USINT := 1; (*Standstill state of the cam automat*)
 	CAM_AUTOMAT_DECELERATION : REAL := 10000; (*Matching cam automat deceleration to cutter axis*)
 END_VAR

@@ -33,10 +33,7 @@
 <Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Cmd.JogForward" attribute="value" />
 <Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="MomentaryPushButtonConvJogF" attribute="value" />
 </Binding>
-<Binding mode="oneWay">
-<Source xsi:type="opcUa" refId="::Cutter:MpAxisBasic_Cutter.MoveActive" attribute="value" />
-<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="ImageMoveActive" attribute="visible" />
-</Binding>
+
 
 <Binding mode="twoWay">
 <Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Status.Error" attribute="value" />
@@ -102,6 +99,18 @@
 <Binding mode="oneWay">
 <Source xsi:type="opcUa" refId="::Cutter:MpAxisBasic_Cutter.Velocity" attribute="value" />
 <Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="NumericOutputVelocity1" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::Conveyor:MpAxisBasic_Conveyor.MoveActive" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="ImageMoveActive" attribute="visible" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Status.Status" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="TextOutputCutterStatus" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Status.Status" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentManual" widgetRefId="TextOutputConvStatus" attribute="value" />
 </Binding>
 </Bindings>
 </BindingsSet>

@@ -1,0 +1,13 @@
+(*local function blocks*)
+VAR
+	PrintMarkDetector : MpRegMarkDetection; (*RegMark detection*)
+	PrintMarkDetectorConfig : MpRegMarkDetectionConfig; (*Configuration fub*)
+END_VAR
+(*local enumerators*)
+VAR
+	PrintMarkState : PrintMarkStateEnum; (*Enumerator for state machine*)
+END_VAR
+(*local structures*)
+VAR
+	PrintMarkConfigStruct : MpRegMarkDetectionConfigType; (*Print mark config structure*)
+END_VAR

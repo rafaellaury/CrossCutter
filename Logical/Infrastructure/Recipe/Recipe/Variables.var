@@ -1,0 +1,19 @@
+(*local variables*)
+VAR
+	SaveRecipe : BOOL := FALSE; (*Command to save recipes*)
+	RecipeCreateStep : RecipeCreateSteps := IDLE; (*Internal variable for recipe creating state machine*)
+	MpRecipeUIConnect : MpRecipeUIConnectType := (Recipe:=(Filter:='*xml'),New:=(FileName:='newRecipe.xml')); (*MpRecipeUI connection datapoints*)
+	RecipeList : ARRAY[0..19] OF STRING[100] := ['{"value":"defaultRecipe.xml","text":"defaultRecipe.xml"}',19('')]; (*List box data provider*)
+	selectedValue : STRING[100]; (*Selected value from list box*)
+END_VAR
+(*local function blocks*)
+VAR
+	MpRecipeRegPar_0 : MpRecipeRegPar; (*Registration of the recipe structure variable*)
+	MpRecipeUI_0 : MpRecipeUI := (UISetup:=(RecipeListSize:=11,RecipeListScrollWindow:=0,Confirmation:=(RecipeLoad:=0,RecipeSave:=0,RecipeCreate:=0,RecipeDelete:=TRUE))); (*MpRecipeUI Component*)
+	MpRecipeXml_0 : MpRecipeXml; (*Recipe Handling FUB*)
+	LoadRecipe : BOOL; (*Load recipe*)
+END_VAR
+(*local constants*)
+VAR
+	RECIPE_FILENAME : STRING[255] := 'defaultRecipe.xml'; (*Default cutting recipe file name*)
+END_VAR

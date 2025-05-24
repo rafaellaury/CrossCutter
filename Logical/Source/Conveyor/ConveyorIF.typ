@@ -4,8 +4,10 @@ TYPE
 	ConveyorStatusType : 	STRUCT  (*Status structure for Conveyor *)
 		Position : LREAL; (*Position of the belt*)
 		ReadyForCommand : BOOL; (*Ready to receive command*)
+		ReadyToStart : BOOL; (*Ready to power on*)
 		Error : BOOL; (*Error bit*)
 		Status : STRING[80] := ''; (*Status string*)
+		MoveActive : BOOL; (*True if moving*)
 	END_STRUCT;
 	ConveyorParType : 	STRUCT  (*Parameter structure for Conveyor*)
 		Velocity : REAL; (*Velocity parameter*)

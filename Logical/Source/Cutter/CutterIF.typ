@@ -4,7 +4,9 @@ TYPE
 	CutterStatusType : 	STRUCT  (*Status structure for Cutter*)
 		Position : LREAL; (*Position of the belt*)
 		ReadyForCommand : BOOL; (*Ready to receive command*)
+		ReadyToStart : BOOL; (*Ready to power on*)
 		Error : BOOL; (*Error bit*)
+		MoveActive : BOOL; (*True if moving*)
 		Status : STRING[80] := ''; (*Status string*)
 	END_STRUCT;
 	CutterSyncRecipeType : 	STRUCT  (*Recipe structure for synchronization phase*)
@@ -24,6 +26,7 @@ TYPE
 		SyncRecipe : CutterSyncRecipeType; (*Recipe PV for the synchronized motion*)
 		RightJogBoundary : LREAL := 160; (*Jog boundary right side, 20 degrees less than 180*)
 		LeftJogBoundary : LREAL := 200; (*Jog boundary left side, 20 degrees more than 180*)
+		Direction : McDirectionEnum := mcDIR_NEGATIVE; (*Negative direction to match conveyor direction*)
 	END_STRUCT;
 	CutterCommandType : 	STRUCT  (*Command structure for Cutter*)
 		Start : BOOL; (*Start command, called when machine boots up*)

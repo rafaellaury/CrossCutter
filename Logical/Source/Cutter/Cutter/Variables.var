@@ -11,14 +11,19 @@ VAR
 END_VAR
 (*local constants*)
 VAR CONSTANT
-	MAX_CUTTER_VELOCITY : REAL := 3500; (*Experimentally determined maximum velocity with lag error <1*)
-	MAX_CUTTER_DECELERATION : REAL := 30000; (*Experimentally determined maximum deleration with lag error <1*)
+	MAX_CUTTER_VELOCITY : REAL := 200; (*Experimentally determined maximum velocity with lag error <1*)
+	MAX_CUTTER_DECELERATION : REAL := 15000; (*Experimentally determined maximum deleration with lag error <1*)
 	DEFAULT_CUTTER_POSITION : LREAL := 0; (*Cutter parked position*)
-	MAX_CUTTER_ACCELERATION : REAL := 30000; (*Experimentally determined maximum acceleration with lag error <1*)
+	MAX_CUTTER_ACCELERATION : REAL := 15000; (*Experimentally determined maximum acceleration with lag error <1*)
 	ENCODER_COMMAND_PAR_ID : INT := 719; (*Encoder command ParID to clear poorly documented error*)
 	ENCODER_FIX_VALUE : UDINT := 1; (*Value to set ParID to to clear the encoder error*)
 END_VAR
 (*local variables*)
 VAR
 	MotionControlState : MotionControlEnum; (*Enumerator for the state machine*)
+	ErrorClearAttempt : BOOL; (*Variable to try to clear initial error*)
+	JogPositionUpperLimit : LREAL := 0; (*[mm] Position checkpoint for jogging*)
+	JogPositionLowerLimit : LREAL := 0; (*[mm] Position checkpoint for jogging*)
+	CutterOnRight : BOOL; (*Cutter is between 0 and 160 degrees*)
+	CutterOnLeft : BOOL; (*Cutter is between 200 and 360 degrees - tracker for jogging*)
 END_VAR

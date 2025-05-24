@@ -7,7 +7,8 @@ TYPE
 		mcPOWER := 1, (*Powering on*)
 		mcHOME := 2, (*Homing the axis*)
 		mcACTIVE := 3, (*Waiting for a move command*)
-		mcSTOP := 4,
-		mcERROR := 5 (*Error handling*)
+		mcIN_CAM := 4, (*In cam*)
+		mcSTOP := 5, (*Stopped*)
+		mcERROR := 6 (*Error handling*)
 		);
 END_TYPE

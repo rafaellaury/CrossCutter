@@ -11,14 +11,17 @@ VAR
 END_VAR
 (*local constants*)
 VAR CONSTANT
-	MAX_CONVEYOR_VELOCITY : REAL := 1340; (*Experimentally determined maximum velocity with lag error <1*)
-	MAX_CONVEYOR_DECELERATION : REAL := 10000; (*Experimentally determined maximum deleration with lag error <1*)
-	MAX_CONVEYOR_ACCELERATION : REAL := 10000; (*Experimentally determined maximum acceleration with lag error <1*)
+	MAX_CONVEYOR_VELOCITY : REAL := 100; (*[mm/s] Experimentally determined maximum velocity with lag error <1*)
+	MAX_CONVEYOR_DECELERATION : REAL := 10000; (*[mm/s^2] Experimentally determined maximum deleration with lag error <1*)
+	MAX_CONVEYOR_ACCELERATION : REAL := 10000; (*[mm/s^2] Experimentally determined maximum acceleration with lag error <1*)
 	ENCODER_COMMAND_PAR_ID : INT := 719; (*Encoder command ParID to clear poorly documented error*)
 	ENCODER_FIX_VALUE : UDINT := 1; (*Value to set ParID to to clear the encoder error*)
 END_VAR
 (*local variables*)
 VAR
-	JogPositionCheckpoint : LREAL; (*Position checkpoint for jogging*)
+	JogPositionUpperLimit : LREAL; (*[mm] Position checkpoint for jogging*)
+	JogPositionLowerLimit : LREAL; (*[mm] Position checkpoint for jogging*)
+	ErrorClearAttempt : BOOL; (*Variable to try to clear initial error*)
 	MotionControlState : MotionControlEnum; (*Enumerator for the state machine*)
+	JogNegativeCheck : BOOL; (*Makes sure jog negative is working properly*)
 END_VAR

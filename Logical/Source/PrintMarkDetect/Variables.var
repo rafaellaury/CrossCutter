@@ -1,0 +1,4 @@
+(*global interface structure*)
+VAR
+	PrintMarkControl : PrintMarkControlType; (*Print mark control structure*)
+END_VAR

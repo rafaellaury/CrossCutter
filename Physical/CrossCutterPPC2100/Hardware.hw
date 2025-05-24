@@ -45,6 +45,9 @@
       <Parameter ID="AssignedOperatingSystem" Value="GPOS" />
     </Connector>
     <Parameter ID="ConfigurationID" Value="CrossCutter_CrossCutterPPC2100" />
+    <Group ID="FileDevice1" />
+    <Parameter ID="FileDeviceName1" Value="USER" />
+    <Parameter ID="FileDevicePath1" Value="C:/recipe" />
     <Parameter ID="TimeZone" Value="65" />
     <Parameter ID="ActivateOpcUa" Value="1" Description="OPCUA needs to be enabled for mapp View" />
     <Parameter ID="OpcUaPort" Description="Default port number" />
@@ -222,7 +225,7 @@
     <Parameter ID="Input" Location="DriveConfiguration/Channel[1]/RealAxis/DigitalInputs/Quickstop" Value="Trigger2" />
     <Parameter ID="SimulationModeOnPLC" Location="DriveConfiguration/Channel[1]/RealAxis/Simulation" Value="SetValueGeneration" />
     <Parameter ID="SimulationModeOnACOPOS" Location="DriveConfiguration/Channel[1]/RealAxis/Simulation" Value="NotUsed" />
-    <Parameter ID="FeatureRef[1]" Location="DriveConfiguration/Channel[1]/RealAxis/AxisFeatures" Value="Feature_CrossCamAutomat" Description="Cam automat feature for the cutter axis" />
+    <Parameter ID="FeatureRef[1]" Location="DriveConfiguration/Channel[1]/RealAxis/AxisFeatures" Value="CrossCamAut" Description="Cam automat feature for the cutter axis" />
     <Parameter ID="ExternalEncoderAxis" Location="DriveConfiguration/Channel[1]" Value="NotUsed" />
   </Module>
 </Hardware>

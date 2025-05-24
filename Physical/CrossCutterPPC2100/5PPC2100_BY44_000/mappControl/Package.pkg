@@ -2,6 +2,6 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Package SubType="mappControl" PackageType="mappControl" xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
-    <Object Type="File" Description="Reg mark detection">Config.regmarkdetection</Object>
+    <Object Type="File" Description="Reg mark detection">CrossReg.regmarkdetection</Object>
   </Objects>
 </Package>
