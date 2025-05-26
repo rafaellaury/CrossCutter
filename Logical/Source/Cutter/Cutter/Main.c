@@ -29,20 +29,6 @@ void AssignParameters()
 	MpAxisParametersCutter.Jog.LimitPosition.LastPosition = JogPositionUpperLimit;
 }
 
-// Helper function to clear poorly documented encoder error
-void ClearEncoderError()
-{
-	// Assign data for the function block to use
-	EncoderProcessParIDType.ParID = ENCODER_COMMAND_PAR_ID;
-	EncoderProcessParIDType.VariableAddress = &ENCODER_FIX_VALUE;
-	EncoderProcessParIDType.DataType = mcACPAX_PARTYPE_UDINT;
-	// Setting up the function block
-	MC_BR_ProcessParID_Cutter.Execute = 1;
-	MC_BR_ProcessParID_Cutter.Axis = &gAxis_Cutter;
-	MC_BR_ProcessParID_Cutter.DataAddress = &EncoderProcessParIDType;
-	MC_BR_ProcessParID_Cutter.Mode = mcACPAX_PARID_SET;
-	MC_BR_ProcessParID_Cutter.NumberOfParIDs = 1;
-}
 
 // Init subroutine that runs only once
 void _INIT ProgramInit(void)
@@ -63,6 +49,16 @@ void _INIT ProgramInit(void)
 	
 	// Initializing MC_Halt function block
 	MC_Halt_Cutter.Axis = &gAxis_Cutter;
+	
+	// Assign data for the function block to use
+	EncoderProcessParIDType.ParID = ENCODER_COMMAND_PAR_ID;
+	EncoderProcessParIDType.VariableAddress = (UDINT) &ENCODER_FIX_VALUE;
+	EncoderProcessParIDType.DataType = mcACPAX_PARTYPE_UDINT;
+	// Setting up the function block
+	MC_BR_ProcessParID_Cutter.Axis = &gAxis_Cutter;
+	MC_BR_ProcessParID_Cutter.DataAddress = (UDINT) &EncoderProcessParIDType;
+	MC_BR_ProcessParID_Cutter.Mode = mcACPAX_PARID_SET;
+	MC_BR_ProcessParID_Cutter.NumberOfParIDs = 1;
 }
 
 // Cyclic subroutine, run every cycle
@@ -73,6 +69,9 @@ void _CYCLIC ProgramCyclic(void)
 		CutterControl.Cmd.Stop = 0;
 		MotionControlState = mcSTOP;
 	}
+	
+	// Setting the reset button to error reset
+	MpAxisBasic_Cutter.ErrorReset = CutterControl.Cmd.Reset;
 	
 	// MOTION CONTROL STATE MACHINE
 	switch (MotionControlState) {
@@ -86,13 +85,16 @@ void _CYCLIC ProgramCyclic(void)
 				if (ErrorClearAttempt) {
 					MpAxisBasic_Cutter.ErrorReset = 0;
 				}
+				if (!MC_BR_ProcessParID_Cutter.Done) {
+					MC_BR_ProcessParID_Cutter.Execute = 1;
+				} else {
+					MC_BR_ProcessParID_Cutter.Execute = 0;
+				}
 				CutterControl.Status.ReadyToStart = 1;
 				brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter ready to start");
 				if (CutterControl.Cmd.Start) {
 					if (MpAxisBasic_Cutter.Info.ReadyToPowerOn) {
 						CutterControl.Status.ReadyToStart = 0;
-						// Calling helper function to clear encoder error
-						ClearEncoderError();
 						MotionControlState = mcPOWER;
 					}
 				}
@@ -168,11 +170,11 @@ void _CYCLIC ProgramCyclic(void)
 			} else if (CutterControl.Cmd.JogForward && !MpAxisBasic_Cutter.Error) {
 				brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter jogging forward");
 				// Setting the jog limit positions
-				JogPositionLowerLimit = -360;
-				if (MpAxisBasic_Cutter.Position > 200) {
-					JogPositionUpperLimit = 720;
+				JogPositionLowerLimit = -360.0;
+				if (MpAxisBasic_Cutter.Position < 200.0) {
+					JogPositionUpperLimit = 160.0;
 				} else {
-						JogPositionUpperLimit = 160;
+					JogPositionUpperLimit = 520.0;
 				}
 				MpAxisBasic_Cutter.MoveVelocity = 0;
 				MpAxisBasic_Cutter.MoveAbsolute = 0;
@@ -183,11 +185,11 @@ void _CYCLIC ProgramCyclic(void)
 			} else if (CutterControl.Cmd.JogBackward && !MpAxisBasic_Cutter.Error) {
 				brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter jogging backward");
 				// Setting the jog limit positions
-				JogPositionUpperLimit = 720;
-				if (MpAxisBasic_Cutter.Position < 160.0) {
-					JogPositionLowerLimit = -360;
+				JogPositionUpperLimit = 720.0;
+				if (MpAxisBasic_Cutter.Position > 160.0) {
+					JogPositionLowerLimit = 200.0;
 				} else {
-					JogPositionLowerLimit = 200;
+					JogPositionLowerLimit = -160.0;
 				}
 				MpAxisBasic_Cutter.MoveVelocity = 0;
 				MpAxisBasic_Cutter.MoveAbsolute = 0;
@@ -230,7 +232,7 @@ void _CYCLIC ProgramCyclic(void)
 			CutterControl.Cmd.MoveVelocity = 0;
 			CutterControl.Cmd.JogForward = 0;
 			CutterControl.Cmd.JogBackward = 0;
-			if (MpAxisBasic_Cutter.MoveActive && !MpAxisBasic_Cutter.Error) {
+			if (MpAxisBasic_Cutter.MoveActive && !MpAxisBasic_Cutter.Error && MpAxisBasic_Cutter.Info.PLCopenState != mcAXIS_STOPPING) {
 				MC_Halt_Cutter.Execute = 1;
 			} else if (MpAxisBasic_Cutter.Error) {
 				CutterControl.Status.Error = 1;

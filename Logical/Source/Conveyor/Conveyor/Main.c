@@ -28,24 +28,6 @@ void AssignParameters()
 	MpAxisParametersConveyor.Jog.LimitPosition.LastPosition = JogPositionUpperLimit;
 }
 
-// Helper function to clear poorly documented encoder error
-void ClearEncoderError()
-{
-	// Assign data for the function block to use
-	EncoderProcessParIDType.ParID = ENCODER_COMMAND_PAR_ID;
-	EncoderProcessParIDType.VariableAddress = &ENCODER_FIX_VALUE;
-	EncoderProcessParIDType.DataType = mcACPAX_PARTYPE_UDINT;
-	// Setting up the function block
-	MC_BR_ProcessParID_Conveyor.Execute = 1;
-	MC_BR_ProcessParID_Conveyor.Axis = &gAxis_Conveyor;
-	MC_BR_ProcessParID_Conveyor.DataAddress = &EncoderProcessParIDType;
-	MC_BR_ProcessParID_Conveyor.Mode = mcACPAX_PARID_SET;
-	MC_BR_ProcessParID_Conveyor.NumberOfParIDs = 1;
-	if (MC_BR_ProcessParID_Conveyor.Done) {
-		MC_BR_ProcessParID_Conveyor.Execute = 0;
-	}
-}
-
 void _INIT ProgramInit(void)
 {
 	
@@ -65,6 +47,16 @@ void _INIT ProgramInit(void)
 	// Initializing MC_Halt function block
 	MC_Halt_Conveyor.Axis = &gAxis_Conveyor;
 	
+	// Assign data for the function block to use
+	EncoderProcessParIDType.ParID = ENCODER_COMMAND_PAR_ID;
+	EncoderProcessParIDType.VariableAddress = (UDINT) &ENCODER_FIX_VALUE;
+	EncoderProcessParIDType.DataType = mcACPAX_PARTYPE_UDINT;
+	// Setting up the function block
+	MC_BR_ProcessParID_Conveyor.Axis = &gAxis_Conveyor;
+	MC_BR_ProcessParID_Conveyor.DataAddress = (UDINT) &EncoderProcessParIDType;
+	MC_BR_ProcessParID_Conveyor.Mode = mcACPAX_PARID_SET;
+	MC_BR_ProcessParID_Conveyor.NumberOfParIDs = 1;
+	
 }
 
 void _CYCLIC ProgramCyclic(void)
@@ -74,6 +66,9 @@ void _CYCLIC ProgramCyclic(void)
 		ConveyorControl.Cmd.Stop = 0;
 		MotionControlState = mcSTOP;
 	}
+	
+	// Setting the reset button to error reset
+	MpAxisBasic_Conveyor.ErrorReset = ConveyorControl.Cmd.Reset;
 	
 	// MOTION CONTROL STATE MACHINE
 	switch (MotionControlState) {
@@ -87,13 +82,16 @@ void _CYCLIC ProgramCyclic(void)
 				if (ErrorClearAttempt) {
 					MpAxisBasic_Conveyor.ErrorReset = 0;
 				}
+				if (!MC_BR_ProcessParID_Conveyor.Done) {
+					MC_BR_ProcessParID_Conveyor.Execute = 1;
+				} else {
+					MC_BR_ProcessParID_Conveyor.Execute = 0;
+				}
 				ConveyorControl.Status.ReadyToStart = 1;
 				brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor ready to start");
 				if (ConveyorControl.Cmd.Start) {
 					if (MpAxisBasic_Conveyor.Info.ReadyToPowerOn) {
 						ConveyorControl.Status.ReadyToStart = 0;
-						// Calling helper function to clear encoder error
-						ClearEncoderError();
 						MotionControlState = mcPOWER;
 					}
 				}
@@ -209,7 +207,7 @@ void _CYCLIC ProgramCyclic(void)
 			ConveyorControl.Cmd.MoveVelocity = 0;
 			ConveyorControl.Cmd.JogForward = 0;
 			ConveyorControl.Cmd.JogBackward = 0;
-			if (MpAxisBasic_Conveyor.MoveActive && !MpAxisBasic_Conveyor.Error) {
+			if (MpAxisBasic_Conveyor.MoveActive && !MpAxisBasic_Conveyor.Error && MpAxisBasic_Conveyor.Info.PLCopenState != mcAXIS_STOPPING) {
 				MC_Halt_Conveyor.Execute = 1;
 			} else if (MpAxisBasic_Conveyor.Error) {
 				ConveyorControl.Status.Error = 1;
@@ -234,7 +232,6 @@ void _CYCLIC ProgramCyclic(void)
 			ConveyorControl.Cmd.JogBackward = 0;
 			MpAxisBasic_Conveyor.Power = 0;
 			MpAxisBasic_Conveyor.ErrorReset = ConveyorControl.Cmd.Reset;
-			ClearEncoderError();
 			if (!MpAxisBasic_Conveyor.Error) {
 				ConveyorControl.Cmd.Reset = 0;
 				MpAxisBasic_Conveyor.ErrorReset = 0;

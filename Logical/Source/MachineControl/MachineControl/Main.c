@@ -45,6 +45,8 @@ void _CYCLIC ProgramCyclic(void)
 					brsstrcpy((UDINT) MachineErrors, (UDINT) "Error switching to Automatic Mode: please stop the cutter first");
 				} else {
 					OperatingState = ccAUTOMATIC;
+					ConveyorControl.Cmd.Stop = 1;
+					CutterControl.Cmd.Stop = 1;
 					AutomaticState = amINIT;
 					ManualMode = 0;
 				}
@@ -69,7 +71,17 @@ void _CYCLIC ProgramCyclic(void)
 			// Checking stop button
 			if (AutomaticStop) {
 				AutomaticState = amSTOP;
-			}	
+			}
+			
+			if (AutomaticReset) {
+				ConveyorControl.Cmd.Reset = 1;
+				CutterControl.Cmd.Reset = 1;
+				MpAxisCamSequencer_CrossCutter.ErrorReset = 1;
+				MpAxisCamSequencer_CrossCutter.GetSequence = 0;
+				MpAxisCamSequencer_CrossCutter.StartSequence = 0;
+				AutomaticState = amINIT;
+				
+			}
 			// If ManualMode toggle button is pressed, switch to Manual Mode
 			if (ManualMode) {
 				if (CutterControl.Status.MoveActive || ConveyorControl.Status.MoveActive) { 
@@ -83,7 +95,16 @@ void _CYCLIC ProgramCyclic(void)
 			// AUTOMATIC STATE MACHINE
 			switch (AutomaticState) {
 				case amINIT:
+				
 					if (AutomaticStart) {
+						
+						ConveyorControl.Cmd.Reset = 0;
+						CutterControl.Cmd.Reset = 0;
+						ConveyorControl.Cmd.Stop = 0;
+						CutterControl.Cmd.Stop = 0;
+						MpAxisCamSequencer_CrossCutter.ErrorReset = 0;
+						
+						MpAxisCamSequencer_CrossCutter.Enable = 1;
 						
 						if (ConveyorControl.Status.ReadyToStart && !ConveyorControl.Status.Error) {
 							ConveyorControl.Cmd.Start = 1;
@@ -102,9 +123,7 @@ void _CYCLIC ProgramCyclic(void)
 						} else if (PrintMarkControl.Status.Error) {
 							AutomaticState = amERROR;
 						}
-						
 						if (ConveyorControl.Status.ReadyForCommand && CutterControl.Status.ReadyForCommand) {
-							MpAxisCamSequencer_CrossCutter.Enable = 1;
 							ConveyorControl.Cmd.Start = 0;
 							CutterControl.Cmd.Start = 0;
 							AutomaticState = amGET_CAMAUT_DATA;
@@ -124,6 +143,7 @@ void _CYCLIC ProgramCyclic(void)
 					} else if (MpAxisCamSequencer_CrossCutter.Error) {
 						AutomaticState = amERROR;
 					}
+				
 					break;
 			
 			
@@ -150,21 +170,25 @@ void _CYCLIC ProgramCyclic(void)
 					}
 					break;
 			
-			case amSTART_MOVEMENT:
-					if (CutterEnable) {
-						MpAxisCamSequencer_CrossCutter.Signal1 = PrintMarkControl.Status.ValidMarkDetected;
-					} else {
+				case amSTART_MOVEMENT:
+					if (CutterEnable && PrintMarkControl.Status.ValidMarkDetected) {
+						AutomaticState = amMOVING;
+					}
+					break;
+			
+				case amMOVING:
+					if (!CutterEnable) {
 						MpAxisCamSequencer_CrossCutter.Signal1 = 0;
+						AutomaticState = amSTART_MOVEMENT;
+					} else {
+						MpAxisCamSequencer_CrossCutter.Signal1 = !PrintMarkControl.Status.ValidMarkDetected;
 					}
+			
+				case amWAIT_CUTTING:
+					
 					break;
 			
-			case amWAIT_CUTTING:
-					if (CutterControl.Status.Position > 180) {
-						AutomaticState = amPREPARE_UPDATE;
-					}
-					break;
-			
-			case amPREPARE_UPDATE:
+				case amPREPARE_UPDATE:
 					break;
 			
 				case amERROR:

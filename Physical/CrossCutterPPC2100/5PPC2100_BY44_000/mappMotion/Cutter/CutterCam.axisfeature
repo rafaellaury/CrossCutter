@@ -10,8 +10,10 @@
               <Property ID="AxisReference" Value="gAxis_Conveyor" />
               <Property ID="MaxVelocity" Value="300" />
             </Selector>
-            <Property ID="StartPosition" Value="0.0" />
-            <Selector ID="StartInterval" Value="MasterAxisPeriod" />
+            <Property ID="StartPosition" Value="0" />
+            <Selector ID="StartInterval" Value="SpecifyValue">
+              <Property ID="Interval" Value="100" />
+            </Selector>
           </Group>
           <Group ID="AdvancedParameters">
             <Group ID="StartStateParameters">
@@ -46,7 +48,7 @@
           <Selector ID="State0" Value="Used" Description="STATE 0 - Initial state">
             <Group ID="Events">
               <Group ID="Event[0]">
-                <Property ID="Type" Value="StateEnd" />
+                <Property ID="Type" Value="MasterStartPosition" />
                 <Property ID="Transition" Value="Immediately" />
                 <Property ID="SynchronousUpdate" Value="NotUsed" />
                 <Property ID="NextState" Value="1" />
@@ -88,7 +90,7 @@
             <Property ID="MasterFactor" Value="2000" />
             <Property ID="SlaveFactor" Value="-2000" />
             <Selector ID="CompensationMode" Value="DistancesBetweenCamCenterPoints">
-              <Property ID="MasterDistance" Value="97" />
+              <Property ID="MasterDistance" Value="80" />
               <Property ID="SlaveDistance" Value="-180" />
               <Selector ID="AdvancedParameters" Value="NotUsed" />
             </Selector>
