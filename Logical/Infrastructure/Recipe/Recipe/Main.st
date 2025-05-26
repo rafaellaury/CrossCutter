@@ -28,7 +28,11 @@ PROGRAM _CYCLIC
 	selectedValue;
 	// Call CreateRecipe action to create default recipe
 	CreateRecipes;
-	
+	// Call NewRecipe action to check if new recipe is being created
+	IF MpRecipeUIConnect.Recipe.List.MaxSelection <= 19 THEN
+		CreateNewRecipeAction;
+	END_IF
+		
 	// Cyclically call all function blocks
 	MpRecipeXml_0();
 	MpRecipeRegPar_0();

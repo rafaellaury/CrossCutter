@@ -10,5 +10,8 @@
     <Object Type="File">ContentLeft.binding</Object>
     <Object Type="File">ContentMain.binding</Object>
     <Object Type="File">ContentTop.binding</Object>
+    <Object Type="File">ContentNewRecipe.binding</Object>
+    <Object Type="File">ContentMain.eventbinding</Object>
+    <Object Type="File">ContentNewRecipe.eventbinding</Object>
   </Objects>
 </Package>

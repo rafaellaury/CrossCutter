@@ -4,6 +4,7 @@
   <Files>
     <File Description="Init, cyclic, exit code">Main.st</File>
     <File Description="Action file to create default recipe">CreateRecipes.st</File>
+    <File Description="Action to create new recipe">NewRecipe.st</File>
     <File Description="Local data types" Private="true">Types.typ</File>
     <File Description="Local variables" Private="true">Variables.var</File>
   </Files>

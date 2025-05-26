@@ -1,10 +1,13 @@
 (*local variables*)
 VAR
+	NewRecipe : BOOL; (*New recipe button*)
+	CreateNewRecipe : BOOL; (*Create new recipe button*)
+	CreateAccepted : BOOL; (*Variable to track when create has been accepted*)
+	CancelCreation : BOOL; (*If recipe creation is cancelled, stop*)
 	SaveRecipe : BOOL := FALSE; (*Command to save recipes*)
-	RecipeCreateStep : RecipeCreateSteps := IDLE; (*Internal variable for recipe creating state machine*)
-	MpRecipeUIConnect : MpRecipeUIConnectType := (Recipe:=(Filter:='*xml'),New:=(FileName:='newRecipe.xml')); (*MpRecipeUI connection datapoints*)
 	RecipeList : ARRAY[0..19] OF STRING[100] := ['{"value":"defaultRecipe.xml","text":"defaultRecipe.xml"}',19('')]; (*List box data provider*)
 	selectedValue : STRING[100]; (*Selected value from list box*)
+	RecipeStatus : STRING[255]; (*Status variable for Recipe management*)
 END_VAR
 (*local function blocks*)
 VAR
@@ -21,4 +24,19 @@ VAR CONSTANT
 END_VAR
 VAR
 	DEFAULT_MM_CONVEYOR : {REDUND_UNREPLICABLE} LREAL := 20; (*[mm] Default conveyor distance*)
+END_VAR
+(*local structures*)
+VAR
+	MpRecipeUIConnect : MpRecipeUIConnectType := (Recipe:=(Filter:='*xml'),New:=(FileName:='newRecipe.xml')); (*MpRecipeUI connection datapoints*)
+	NewSyncRecipe : SyncRecipeType; (*Sync recipe for new recipes*)
+END_VAR
+(*local enumerators*)
+VAR
+	RecipeCreateStep : RecipeCreateSteps := IDLE; (*Internal variable for recipe creating state machine*)
+	RecipeCreateStepNew : RecipeCreateSteps := IDLE; (*Internal variable for recipe creating state machine*)
+	Piece1 : STRING[80]; (*Helper for list box appending*)
+	Piece2 : STRING[80]; (*Helper for list box appending*)
+	Piece3 : STRING[80]; (*Helpder for list box appending*)
+	NewListBoxEntry : STRING[100];
+	NewFileName : STRING[80];
 END_VAR

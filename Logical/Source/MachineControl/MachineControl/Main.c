@@ -86,6 +86,7 @@ void _CYCLIC ProgramCyclic(void)
 				if (CutterControl.Status.MoveActive || ConveyorControl.Status.MoveActive) { 
 					brsstrcpy((UDINT) MachineStatus, (UDINT) "Machine in error");
 					brsstrcpy((UDINT) MachineErrors, (UDINT) "Error switching to Manual Mode: please stop Automatic Mode first");
+					ManualMode = 0;
 				} else {
 					OperatingState = ccMANUAL;
 					AutomaticMode = 0;
@@ -202,6 +203,8 @@ void _CYCLIC ProgramCyclic(void)
 				case amSTOP:
 					ConveyorControl.Cmd.Stop = 1;
 					CutterControl.Cmd.Stop = 1;
+					PrintMarkControl.Cmd.Stop = 1;
+					CutterEnable = 0;
 					
 					MpAxisCamSequencer_CrossCutter.StartSequence = 0;
 					MpAxisCamSequencer_CrossCutter.Enable = 0;

@@ -33,6 +33,12 @@
         <Variable Name="MpRecipeUIConnect" RecursiveEnable="2" />
         <Variable Name="RecipeList" RecursiveEnable="2" />
         <Variable Name="selectedValue" />
+        <Variable Name="NewSyncRecipe" RecursiveEnable="2" />
+        <Variable Name="NewRecipe" />
+        <Variable Name="RecipeStatus" />
+        <Variable Name="CreateAccepted" />
+        <Variable Name="CreateNewRecipe" />
+        <Variable Name="CancelCreation" />
       </Task>
     </Module>
   </DefaultView>

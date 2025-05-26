@@ -218,6 +218,7 @@ void _CYCLIC ProgramCyclic(void)
 			} else {
 				MC_Halt_Conveyor.Execute = 0;
 				MpAxisBasic_Conveyor.Power = 0;
+				ConveyorControl.Status.ReadyToStart = 1;
 			}
 			break;
 

@@ -245,6 +245,7 @@ void _CYCLIC ProgramCyclic(void)
 			} else {
 				MC_Halt_Cutter.Execute = 0;	
 				MpAxisBasic_Cutter.Power = 0;
+				CutterControl.Status.ReadyToStart = 1;
 			}
 			break;
 

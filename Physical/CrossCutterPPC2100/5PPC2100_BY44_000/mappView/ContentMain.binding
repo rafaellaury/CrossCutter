@@ -117,5 +117,21 @@
 <Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Status.ErrorText" attribute="value" />
 <Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputConvErrorText" attribute="value" />
 </Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::MachineCon:MachineOperatingStateText" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputMode" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::MachineCon:MachineStatus" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputStatus" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::MachineCon:MachineErrors" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputErrors" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Recipe:NewRecipe" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="MomentaryPushManualReset1" attribute="value" />
+</Binding>
 </Bindings>
 </BindingsSet>

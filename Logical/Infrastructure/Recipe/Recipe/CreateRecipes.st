@@ -17,9 +17,9 @@ ACTION CreateRecipes:
 				
 				// check for load error > triggers the default creation > if no error everything is ready to go
 				IF (MpRecipeUIConnect.Recipe.List.Names[0] = '') THEN
-					MpRecipeXml_0.Load 			:= FALSE;
-					MpRecipeXml_0.ErrorReset 	:= TRUE;
-					RecipeCreateStep 			:= CREATE_1;
+					MpRecipeXml_0.Load := FALSE;
+					MpRecipeXml_0.ErrorReset := TRUE;
+					RecipeCreateStep := CREATE_1;
 					
 				ELSE
 					MpRecipeUIConnect.Recipe.Load := TRUE;
@@ -27,8 +27,8 @@ ACTION CreateRecipes:
 				
 				// reset the load command from the init when recipe was loaded successfully
 				IF (MpRecipeUIConnect.Status = mpRECIPE_UI_STATUS_LOAD) AND (MpRecipeUIConnect.Recipe.Load = TRUE) THEN
-					MpRecipeUIConnect.Recipe.Load			:= FALSE;
-					RecipeCreateStep						:= ALL_DONE;
+					MpRecipeUIConnect.Recipe.Load := FALSE;
+					RecipeCreateStep := ALL_DONE;
 				END_IF
 
 			END_IF
@@ -41,32 +41,32 @@ ACTION CreateRecipes:
 			MachineControl.Par.SyncRecipe.DegreesAfter := DEFAULT_DEG_AFTER; // 10 degrees before the cut
 			MachineControl.Par.SyncRecipe.ConveyorDistance := DEFAULT_MM_CONVEYOR; // 20 mm synced conveyor distance
 			
-			MpRecipeXml_0.FileName 				:= ADR(RECIPE_FILENAME);
-			MpRecipeXml_0.Save					:= TRUE;
-			RecipeCreateStep 					:= REFRESH;
+			MpRecipeXml_0.FileName := ADR(RECIPE_FILENAME);
+			MpRecipeXml_0.Save := TRUE;
+			RecipeCreateStep := REFRESH;
 			
 		REFRESH:	// refresh the recipe list to make sure all the recipes are shown
 			
 			IF(MpRecipeXml_0.CommandDone) THEN
-				RecipeCreateStep 					:= LOAD;
-				MpRecipeXml_0.Save					:= FALSE;
-				MpRecipeUIConnect.Recipe.Refresh 	:= TRUE;
+				RecipeCreateStep := LOAD;
+				MpRecipeXml_0.Save := FALSE;
+				MpRecipeUIConnect.Recipe.Refresh := TRUE;
 			END_IF;	
 		
 		LOAD:	// load the first recipe to have a default recipe
 			
 			IF(MpRecipeUIConnect.Status = mpRECIPE_UI_STATUS_IDLE)THEN
-				MpRecipeUIConnect.Recipe.Load 		:= TRUE;
-				RecipeCreateStep 					:= DONE_1;
+				MpRecipeUIConnect.Recipe.Load := TRUE;
+				RecipeCreateStep := DONE_1;
 			END_IF
 			
 		DONE_1:	// if loading was successful the creation of the recipes is done
 		
 			IF(MpRecipeUIConnect.Status = mpRECIPE_UI_STATUS_IDLE)THEN
-				RecipeCreateStep 					:= ALL_DONE;
-				MpRecipeUIConnect.Recipe.Refresh 	:= FALSE;
-				MpRecipeUIConnect.Recipe.Load 		:= FALSE;
-			END_IF;		
+				RecipeCreateStep := ALL_DONE;
+				MpRecipeUIConnect.Recipe.Refresh := FALSE;
+				MpRecipeUIConnect.Recipe.Load := FALSE;
+			END_IF;
 		
 	END_CASE;
 

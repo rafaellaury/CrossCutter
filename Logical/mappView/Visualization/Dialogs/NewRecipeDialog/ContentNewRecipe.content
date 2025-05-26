@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Content id="ContentNewRecipe" height="400" width="560" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Widgets>
+    <Widget xsi:type="widgets.brease.NumericInput" id="NumericInputDegBefore" top="140" left="300" width="120" zIndex="0" maxValue="25" unit="{'metric':'DD','imperial':'DD','imperial-us':'DD'}" unitAlign="right" unitFontSize="16px" />
+    <Widget xsi:type="widgets.brease.NumericInput" id="NumericInputDegreeAfter" top="200" left="300" width="120" zIndex="1" maxValue="25" minValue="1" unit="{'metric':'DD','imperial':'DD','imperial-us':'DD'}" unitAlign="right" unitFontSize="16px" />
+    <Widget xsi:type="widgets.brease.NumericInput" id="NumericInput3" top="260" left="300" width="120" zIndex="2" maxValue="50" minValue="2" unit="{'metric':'MMT','imperial':'MMT','imperial-us':'MMT'}" unitAlign="right" unitFontSize="16px" />
+    <Widget xsi:type="widgets.brease.Label" id="LabelRecipeDegBefore" top="140" left="140" width="140" zIndex="3" text="Degrees Before:" backColor="rgba(255, 255, 255, 0)" fontSize="16px" italic="false" />
+    <Widget xsi:type="widgets.brease.Label" id="LabelRecipeDegAfter" top="200" left="160" width="120" zIndex="4" text="Degrees After:" backColor="rgba(255, 255, 255, 0)" fontSize="16px" italic="false" />
+    <Widget xsi:type="widgets.brease.Label" id="LabelRecipeConvDis" top="260" left="120" width="160" zIndex="5" text="Conveyor Distance:" backColor="rgba(255, 255, 255, 0)" fontSize="16px" italic="false" />
+    <Widget xsi:type="widgets.brease.TextInput" id="TextInput1" top="80" left="300" width="180" zIndex="6" />
+    <Widget xsi:type="widgets.brease.Label" id="LabelRecipeDegBefore1" top="80" left="100" width="180" zIndex="7" text="New Recipe Filename:" backColor="rgba(255, 255, 255, 0)" fontSize="16px" italic="false" />
+    <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryCreate" top="320" left="300" width="140" height="50" zIndex="8" text="Create" enable="false" style="Operate" />
+    <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryCancel" top="320" left="120" width="140" height="50" zIndex="9" text="Cancel" style="Operate" />
+    <Widget xsi:type="widgets.brease.Label" id="LabelRecipeStatus" top="20" left="40" width="480" zIndex="10" text="Status:" backColor="rgba(211, 211, 211, 1)" fontSize="16px" italic="false" />
+    <Widget xsi:type="widgets.brease.TextOutput" id="TextOutputRecipeStatus" top="20" left="100" width="420" zIndex="11" textAlign="right" />
+  </Widgets>
+</Content>

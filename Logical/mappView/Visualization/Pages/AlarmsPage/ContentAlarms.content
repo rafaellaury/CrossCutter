@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Content id="ContentAlarms" height="660" width="1120" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Content id="ContentAlarms" height="700" width="1120" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Widgets>
-    <Widget xsi:type="widgets.brease.TabControl" id="TabControlAlarms" top="40" left="180" width="920" height="580" zIndex="0" tooltip="Alarm list and alarm history">
+    <Widget xsi:type="widgets.brease.TabControl" id="TabControlAlarms" top="20" left="180" width="920" height="660" zIndex="0" headerBackColor="rgba(245, 245, 245, 1)" backColor="rgba(255, 255, 255, 1)" tooltip="Alarm list and alarm history">
       <Widgets>
-        <Widget xsi:type="widgets.brease.TabItem" id="TabItemActiveAlarms" left="0" width="120" zIndex="0" text="Active Alarms" tooltip="Currently active alarms">
+        <Widget xsi:type="widgets.brease.TabItem" id="TabItemActiveAlarms" left="0" width="120" zIndex="0" text="Active Alarms" style="TabItem1" tooltip="Currently active alarms">
           <Widgets>
             <Widget xsi:type="widgets.brease.AlarmList" id="AlarmListActive" top="10" left="0" width="920" height="530" zIndex="0" itemsPerPage="10">
               <Widgets>
@@ -17,7 +17,7 @@
             </Widget>
           </Widgets>
         </Widget>
-        <Widget xsi:type="widgets.brease.TabItem" id="TabItemAlarmHistory" left="0" width="120" zIndex="1" text="Alarm History">
+        <Widget xsi:type="widgets.brease.TabItem" id="TabItemAlarmHistory" left="0" width="120" zIndex="1" text="Alarm History" backColor="rgba(255, 255, 255, 1)" style="TabItem1">
           <Widgets>
             <Widget xsi:type="widgets.brease.AlarmHistory" id="AlarmHistoryCrossCutter" top="10" left="0" width="920" height="530" zIndex="0" itemsPerPage="10">
               <Widgets>
@@ -33,7 +33,7 @@
         </Widget>
       </Widgets>
     </Widget>
-    <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryPushButtonAck" top="260" left="20" width="140" height="43" zIndex="1" text="Acknowledge" style="Command" />
-    <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryPushButtonAckAll" top="321" left="20" width="140" height="42" zIndex="2" text="Acknowledge All" style="Command" />
+    <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryPushButtonAck" top="280" left="20" width="140" height="43" zIndex="1" text="Acknowledge" style="Command" />
+    <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryPushButtonAckAll" top="340" left="20" width="140" height="42" zIndex="2" text="Acknowledge All" style="Command" />
   </Widgets>
 </Content>

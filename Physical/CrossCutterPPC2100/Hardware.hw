@@ -49,6 +49,12 @@
     <Parameter ID="FileDeviceName1" Value="USER" />
     <Parameter ID="FileDevicePath1" Value="C:/recipes" />
     <Parameter ID="TimeZone" Value="65" />
+    <Group ID="FtpUser1" />
+    <Parameter ID="FtpUsername1" Value="admin" Description="admin" />
+    <Parameter ID="FtpUserPassword1" Value="+A5JDRj4ZD7Q4jpbypEduOS6AMiVYeFQlT+axpxhPeU=" Description="admin" />
+    <Parameter ID="FtpUserSalt1" Value="8u5AT8gv" />
+    <Parameter ID="FTPAccessRight1" Value="0" />
+    <Parameter ID="FTPdevice1" Value="ALL" />
     <Parameter ID="ActivateOpcUa" Value="1" Description="OPCUA needs to be enabled for mapp View" />
     <Parameter ID="OpcUaPort" Description="Default port number" />
     <Parameter ID="OpcUaInformationModels_PV_Version" Value="1" />

@@ -14,11 +14,16 @@
     <BindingsSet refId="ContentLeft_binding" />
     <BindingsSet refId="ContentMain_binding" />
     <BindingsSet refId="ContentTop_binding" />
+    <BindingsSet refId="ContentNewRecipe_binding" />
   </BindingsSets>
   <EventBindingsSets>
     <EventBindingsSet refId="ContentAlarms_eventbinding" />
+    <EventBindingsSet refId="ContentMain_eventbinding" />
+    <EventBindingsSet refId="ContentNewRecipe_eventbinding" />
   </EventBindingsSets>
-  <Dialogs />
+  <Dialogs>
+    <Dialog refId="NewRecipeDialog" />
+  </Dialogs>
   <Contents>
     <Content refId="ContentMain" />
     <Content refId="ContentLeft" />
@@ -26,6 +31,7 @@
     <Content refId="ContentDiagnostics" />
     <Content refId="ContentAlarms" />
     <Content refId="ContentManual" />
+    <Content refId="ContentNewRecipe" />
   </Contents>
   <SnippetsSets />
   <VariablesSets />
