@@ -1,13 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Content id="ContentMain" height="660" width="1120" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Widgets>
-    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBoxModeSelect" top="20" left="20" width="300" height="220" zIndex="0" text="Mode Selection">
+    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBoxModeSelect" top="20" left="20" width="320" height="260" zIndex="0" text="Machine Operation">
       <Widgets>
-        <Widget xsi:type="widgets.brease.ToggleButton" id="ToggleButtonManual" top="15" left="20" width="120" height="56" zIndex="0" text="Manual" />
-        <Widget xsi:type="widgets.brease.ToggleButton" id="ToggleButtonAutomatic" top="15" left="160" width="120" height="56" zIndex="1" text="Automatic" />
+        <Widget xsi:type="widgets.brease.ToggleButton" id="ToggleButtonManual" top="15" left="20" width="130" height="56" zIndex="0" text="Manual" value="true" />
+        <Widget xsi:type="widgets.brease.ToggleButton" id="ToggleButtonAutomatic" top="14" left="170" width="130" height="56" zIndex="1" text="Automatic" />
         <Widget xsi:type="widgets.brease.Label" id="LabelCurrentMode" top="84" left="20" width="120" zIndex="2" text="Current Mode: " fontSize="16px" />
         <Widget xsi:type="widgets.brease.Label" id="LabelCurrentMode1" top="124" left="20" width="120" zIndex="3" text="Machine Status:" fontSize="16px" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelCurrentError" top="164" left="20" width="120" zIndex="4" text="Error:" fontSize="16px" />
       </Widgets>
+    </Widget>
+    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBoxAutomaticControl" top="20" left="360" width="420" height="260" zIndex="1" text="Automatic Control">
+      <Widgets>
+        <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryPushAutoStart" top="24" left="20" width="120" height="39" zIndex="0" text="Start" />
+        <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryPushAutoStop" top="65" left="20" width="120" height="39" zIndex="1" text="Stop" />
+        <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryPushManualReset" top="106" left="20" width="120" height="39" zIndex="2" text="Reset" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelState" top="24" left="160" zIndex="3" text="State:" fontSize="16px" italic="false" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelState1" top="64" left="160" zIndex="4" text="Status:" fontSize="16px" italic="false" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelError" top="104" left="160" zIndex="5" text="Error:" fontSize="16px" italic="false" />
+        <Widget xsi:type="widgets.brease.ToggleSwitch" id="ToggleSwitchEnableCutter" top="164" left="20" width="160" height="36" zIndex="6" text="Enable Cutter" fontSize="16px" />
+        <Widget xsi:type="widgets.brease.NumericInput" id="NumericInput1" top="164" left="280" width="120" height="36" zIndex="7" unit="{'metric':'http://www.br-automation.com/units|PM1','imperial':'http://www.br-automation.com/units|PM1','imperial-us':'http://www.br-automation.com/units|PM1'}" unitAlign="right" unitFontSize="16px" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelStateSpeed" top="164" left="200" height="36" zIndex="8" text="Speed:" fontSize="16px" italic="false" />
+      </Widgets>
+    </Widget>
+    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBoxRecipe" top="300" left="20" width="320" height="340" zIndex="2" text="Cutter Synchronized Phase Recipe">
+      <Widgets>
+        <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryPushManualStart1" top="24" left="200" height="38" zIndex="0" text="Load" />
+        <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryPushManualStop1" top="65" left="200" height="38" zIndex="1" text="Edit" />
+        <Widget xsi:type="widgets.brease.MomentaryPushButton" id="MomentaryPushManualReset1" top="106" left="200" height="38" zIndex="2" text="New" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelRecipeSelected" top="160" left="20" width="140" height="14" zIndex="3" text="Selected Recipe:" backColor="rgba(255, 255, 255, 0)" fontSize="16px" italic="false" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelState3" top="64" left="140" zIndex="4" text="Status:" fontSize="16px" italic="false" />
+        <Widget xsi:type="widgets.brease.ListBox" id="ListBoxRecipe" top="24" left="20" width="160" height="116" zIndex="5" borderWidth="2px" />
+        <Widget xsi:type="widgets.brease.TextOutput" id="TextOutputRecipe" top="160" left="160" width="140" height="14" zIndex="6" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelRecipeDegBefore" top="184" left="20" width="280" zIndex="7" text="Degrees Before:" backColor="rgba(245, 245, 245, 1)" fontSize="16px" italic="false" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelRecipeDegAfter" top="224" left="20" width="280" zIndex="8" text="Degrees After:" backColor="rgba(245, 245, 245, 1)" fontSize="16px" italic="false" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelRecipeConvDis" top="264" left="20" width="280" zIndex="9" text="Conveyor Distance:" backColor="rgba(245, 245, 245, 1)" fontSize="16px" italic="false" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="NumericOutputDegBefore" top="184" left="180" width="120" zIndex="10" unit="{'metric':'DD','imperial':'DD','imperial-us':'DD'}" unitAlign="right" unitFontSize="16px" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="NumericOutputDegAfter" top="224" left="180" width="120" zIndex="11" unit="{'metric':'DD','imperial':'DD','imperial-us':'DD'}" unitAlign="right" unitFontSize="16px" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="NumericOutputConvDis" top="264" left="180" width="120" zIndex="12" unit="{'metric':'MMT','imperial':'MMT','imperial-us':'MMT'}" unitAlign="right" unitFontSize="16px" />
+      </Widgets>
+    </Widget>
+    <Widget xsi:type="widgets.brease.Image" id="ImageError" top="20" left="300" width="40" height="36" zIndex="3" image="Media/SymbolLib/Alarm/Alarm.svg" visible="false" />
+    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBoxStatus" top="480" left="360" width="420" height="156" zIndex="4" text="Cutter Status and Alarms">
+      <Widgets>
+        <Widget xsi:type="widgets.brease.Label" id="LabelConvManJogVelCurr" top="4" left="0" width="160" zIndex="0" text="Velocity:" fontSize="16px" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelConvManError" top="44" left="220" width="100" zIndex="1" text="Status ID:" fontSize="16px" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="NumericOutputVelocity" top="4" left="60" width="140" zIndex="2" unit="{'metric':'C16','imperial':'C16','imperial-us':'C16'}" unitAlign="right" unitFontSize="16px" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelConvManJogPos" top="44" left="0" width="160" zIndex="3" text="Position:" fontSize="16px" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="NumericOutputPos" top="44" left="60" width="140" zIndex="4" unit="{'metric':'MMT','imperial':'MMT','imperial-us':'MMT'}" unitAlign="right" unitFontSize="16px" />
+        <Widget xsi:type="widgets.brease.TextOutput" id="TextOutputConvErrorText" top="88" left="100" width="320" height="32" zIndex="5" multiLine="true" wordWrap="true" backColor="rgba(245, 245, 245, 0)" textAlign="left top" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelConvManError3" top="84" left="0" width="100" zIndex="6" text="Error Text:" fontSize="16px" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="NumericOutputStatusIDConv" top="44" left="280" width="140" zIndex="7" format="{'metric':{'decimalPlaces':0,'minimumIntegerDigits':1,'maximumIntegerDigits':25},'imperial':{'decimalPlaces':0,'minimumIntegerDigits':1,'maximumIntegerDigits':25},'imperial-us':{'decimalPlaces':0,'minimumIntegerDigits':1,'maximumIntegerDigits':25}}" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelConvManError2" top="4" left="220" width="100" zIndex="8" text="State:" fontSize="16px" />
+        <Widget xsi:type="widgets.brease.TextOutput" id="TextOutputConvState" top="4" left="280" width="140" zIndex="9" backColor="rgba(245, 245, 245, 0)" textAlign="right" />
+      </Widgets>
+    </Widget>
+    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBoxStatus1" top="300" left="360" width="420" height="160" zIndex="5" text="Conveyor Status and Alarms">
+      <Widgets>
+        <Widget xsi:type="widgets.brease.Label" id="LabelConvManJogVelCurr1" top="4" left="0" width="160" zIndex="0" text="Velocity:" fontSize="16px" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelConvManError1" top="84" left="0" width="100" height="28" zIndex="1" text="Error Text: " fontSize="16px" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="NumericOutputVelocity1" top="4" left="60" width="140" zIndex="2" unit="{'metric':'E96','imperial':'E96','imperial-us':'E96'}" unitAlign="right" unitFontSize="16px" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelConvManJogPos1" top="44" left="0" width="160" zIndex="3" text="Position:" fontSize="16px" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="NumericOutputPos1" top="44" left="60" width="140" zIndex="4" unit="{'metric':'DD','imperial':'DD','imperial-us':'DD'}" unitAlign="right" unitFontSize="16px" />
+        <Widget xsi:type="widgets.brease.TextOutput" id="TextOutputCutErrorText" top="88" left="100" width="320" height="32" zIndex="5" multiLine="true" wordWrap="true" backColor="rgba(245, 245, 245, 0)" textAlign="left top" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelConvManError4" top="46" left="220" width="100" zIndex="6" text="Status ID:" fontSize="16px" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="NumericOutputStatusIDCut" top="46" left="240" width="180" height="29" zIndex="7" format="{'metric':{'decimalPlaces':0,'minimumIntegerDigits':1,'maximumIntegerDigits':25},'imperial':{'decimalPlaces':0,'minimumIntegerDigits':1,'maximumIntegerDigits':25},'imperial-us':{'decimalPlaces':0,'minimumIntegerDigits':1,'maximumIntegerDigits':25}}" />
+        <Widget xsi:type="widgets.brease.Label" id="LabelConvManError5" top="6" left="220" width="100" zIndex="8" text="State:" fontSize="16px" />
+        <Widget xsi:type="widgets.brease.TextOutput" id="TextOutputCutState" top="6" left="280" width="140" zIndex="9" backColor="rgba(245, 245, 245, 0)" textAlign="right" />
+      </Widgets>
+    </Widget>
+    <Widget xsi:type="widgets.brease.Image" id="ImageError1" top="300" left="740" width="40" height="36" zIndex="6" image="Media/SymbolLib/Alarm/Alarm.svg" visible="false" />
+    <Widget xsi:type="widgets.brease.Image" id="ImageError2" top="480" left="740" width="40" height="36" zIndex="7" image="Media/SymbolLib/Alarm/Alarm.svg" visible="false" />
+    <Widget xsi:type="widgets.brease.Image" id="ImageMoveActive" top="303" left="365" width="30" height="40" zIndex="8" image="Media/Images/circle-xxl.png" visible="false" />
+    <Widget xsi:type="widgets.brease.Image" id="ImageMoveActive1" top="483" left="365" width="30" height="40" zIndex="9" image="Media/Images/circle-xxl.png" visible="false" />
+    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBox1" top="20" left="800" zIndex="10" text="GroupBox1">
+      <Widgets />
     </Widget>
   </Widgets>
 </Content>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
 <Configuration>
-  <Element ID="UserUnit" Type="Units" Description="Degree per second squared unit">
+  <Element ID="DegreesPerSecondSquared" Type="Units" Description="Degree per second squared unit">
     <Property ID="Namespace" Value="http://www.br-automation.com/units" Description="Namespace" />
     <Property ID="UnitID" Value="4477011" Description="Automatically generated unit ID" />
     <Property ID="CommonCode" Value="DPS" Description="Common code given by user" />
@@ -9,8 +9,10 @@
     <Property ID="Name" Value="degrees per second squared" Description="Name as defined in TMX file" />
     <Property ID="Symbol" Value="°/s²" Description="Symbol as defined in TMX file" />
     <Property ID="Description" Value="Unit of acceleration and deceleration for a rotary periodic axis" Description="Description as defined in TMX file" />
-    <Group ID="Classification[1]">
-      <Property ID="Group[1]" Value="Mechanics" />
+    <Group ID="Classification[1]" Description="Classification 1">
+      <Property ID="Group[1]" Value="Space and Time" Description="Mechanics group" />
+      <Property ID="Category[1]" Value="acceleration, acceleration of free fall, acceleration due to gravity" Description="Acceleration" />
     </Group>
+    <Selector ID="AtomicOrCompound" Description="Atomic " />
   </Element>
 </Configuration>

@@ -217,6 +217,8 @@ void _CYCLIC ProgramCyclic(void)
 		
 		// Cam is activated
 		case mcIN_CAM:
+			brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter is moving in cam");
+			brsstrcpy((UDINT) CutterControl.Status.State, (UDINT) "In Cam");
 			CutterControl.Status.ReadyForCommand = 0;
 			//wait until cam is done
 			//if (MpAxisBasic_Cutter.Info.PLCopenState != mcAXIS_SYNCHRONIZED_MOTION) {

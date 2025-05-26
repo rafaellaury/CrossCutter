@@ -16,10 +16,9 @@ TYPE
 		amSTART_CONVEYOR := 6, (*Start conveyor (master axis)*)
 		amSTART_MOVEMENT := 7, (*Start movement*)
 		amMOVING := 8, (*Cam in motion*)
-		amWAIT_CUTTING := 9, (*Wait for cutting to complete (cutter pos > 180)*)
-		amPREPARE_UPDATE := 10, (*Prepare cam parameter update*)
-		amCAM_IN := 11, (*Cam in state*)
-		amERROR := 12, (*Error on axis or in automat*)
-		amSTOP := 13 (*Automat has been stopped*)
+		amPREPARE_UPDATE := 9, (*Prepare cam parameter update*)
+		amUPDATE_MOVEMENT := 10, (*Cam in state*)
+		amSTOP := 11, (*Automat has been stopped*)
+		amERROR := 12 (*Error on axis or in automat*)
 		);
 END_TYPE

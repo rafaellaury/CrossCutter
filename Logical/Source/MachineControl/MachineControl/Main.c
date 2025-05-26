@@ -80,7 +80,6 @@ void _CYCLIC ProgramCyclic(void)
 				MpAxisCamSequencer_CrossCutter.GetSequence = 0;
 				MpAxisCamSequencer_CrossCutter.StartSequence = 0;
 				AutomaticState = amINIT;
-				
 			}
 			// If ManualMode toggle button is pressed, switch to Manual Mode
 			if (ManualMode) {
@@ -96,43 +95,41 @@ void _CYCLIC ProgramCyclic(void)
 			switch (AutomaticState) {
 				case amINIT:
 				
-					if (AutomaticStart) {
+					ConveyorControl.Cmd.Reset = 0;
+					CutterControl.Cmd.Reset = 0;
+					ConveyorControl.Cmd.Stop = 0;
+					CutterControl.Cmd.Stop = 0;
+					MpAxisCamSequencer_CrossCutter.ErrorReset = 0;
 						
-						ConveyorControl.Cmd.Reset = 0;
-						CutterControl.Cmd.Reset = 0;
-						ConveyorControl.Cmd.Stop = 0;
-						CutterControl.Cmd.Stop = 0;
-						MpAxisCamSequencer_CrossCutter.ErrorReset = 0;
+					MpAxisCamSequencer_CrossCutter.Enable = 1;
 						
-						MpAxisCamSequencer_CrossCutter.Enable = 1;
-						
-						if (ConveyorControl.Status.ReadyToStart && !ConveyorControl.Status.Error) {
-							ConveyorControl.Cmd.Start = 1;
-						} else if (ConveyorControl.Status.Error) {
-							AutomaticState = amERROR;
-						}
-						// Turn on cutter if it is not already turned on
-						if (CutterControl.Status.ReadyToStart && !CutterControl.Status.Error) {
-							CutterControl.Cmd.Start = 1;
-						}  else if (CutterControl.Status.Error) {
-							AutomaticState = amERROR;
-						}
-						
-						if (!PrintMarkControl.Status.Active) {
-							PrintMarkControl.Cmd.Start = 1;
-						} else if (PrintMarkControl.Status.Error) {
-							AutomaticState = amERROR;
-						}
-						if (ConveyorControl.Status.ReadyForCommand && CutterControl.Status.ReadyForCommand) {
-							ConveyorControl.Cmd.Start = 0;
-							CutterControl.Cmd.Start = 0;
-							AutomaticState = amGET_CAMAUT_DATA;
-						} else if (ConveyorControl.Status.Error || CutterControl.Status.Error) {
-							ConveyorControl.Cmd.Start = 0;
-							CutterControl.Cmd.Start = 0;
-							AutomaticState = amERROR;
-						}
+					if (ConveyorControl.Status.ReadyToStart && !ConveyorControl.Status.Error) {
+						ConveyorControl.Cmd.Start = 1;
+					} else if (ConveyorControl.Status.Error) {
+						AutomaticState = amERROR;
 					}
+					// Turn on cutter if it is not already turned on
+					if (CutterControl.Status.ReadyToStart && !CutterControl.Status.Error) {
+						CutterControl.Cmd.Start = 1;
+					}  else if (CutterControl.Status.Error) {
+						AutomaticState = amERROR;
+					}
+						
+					if (!PrintMarkControl.Status.Active) {
+						PrintMarkControl.Cmd.Start = 1;
+					} else if (PrintMarkControl.Status.Error) {
+						AutomaticState = amERROR;
+					}
+					if (ConveyorControl.Status.ReadyForCommand && CutterControl.Status.ReadyForCommand) {
+						ConveyorControl.Cmd.Start = 0;
+						CutterControl.Cmd.Start = 0;
+						AutomaticState = amGET_CAMAUT_DATA;
+					} else if (ConveyorControl.Status.Error || CutterControl.Status.Error) {
+						ConveyorControl.Cmd.Start = 0;
+						CutterControl.Cmd.Start = 0;
+						AutomaticState = amERROR;
+					}
+					
 					break;
 					
 				case amGET_CAMAUT_DATA:
@@ -149,7 +146,7 @@ void _CYCLIC ProgramCyclic(void)
 			
 			
 				case amWAITING:
-					if (Trigger1) {
+					if (AutomaticStart) {
 						AutomaticState = amSTART_CAMAUT;
 					}
 					break;
@@ -184,11 +181,17 @@ void _CYCLIC ProgramCyclic(void)
 						MpAxisCamSequencer_CrossCutter.Signal1 = !PrintMarkControl.Status.ValidMarkDetected;
 					}
 			
-				case amWAIT_CUTTING:
-					
-					break;
-			
-				case amPREPARE_UPDATE:
+					if (CutterControl.Status.Position > 180.0) {
+						CamAutomatParameters.State[2].MasterFactor = (MachineControl.Par.SyncRecipe.ConveyorDistance) * 100.0;
+						CamAutomatParameters.State[2].SlaveFactor = (MachineControl.Par.SyncRecipe.DegreesAfter + MachineControl.Par.SyncRecipe.DegreesBefore) * -100.0;
+						CamAutomatParameters.State[3].MasterFactor = (MachineControl.Par.SyncRecipe.ConveyorDistance) * 100.0;
+						CamAutomatParameters.State[3].SlaveFactor = (MachineControl.Par.SyncRecipe.DegreesAfter + MachineControl.Par.SyncRecipe.DegreesBefore) * -100.0;
+						CamAutomatParameters.State[4].CompensationParameters.SlaveCompDistance = (180.0 - MachineControl.Par.SyncRecipe.DegreesAfter) * -1;MpAxisCamSeqParameters.CamSequence.Set.Command = mcSET_UPDATE_FROM_ADR;
+						MpAxisCamSequencer_CrossCutter.Update = 1;
+						if (MpAxisCamSequencer_CrossCutter.UpdateDone) {
+							MpAxisCamSequencer_CrossCutter.Update = 0;
+						}
+					}
 					break;
 			
 				case amERROR:

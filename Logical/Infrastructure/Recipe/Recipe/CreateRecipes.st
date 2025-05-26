@@ -37,9 +37,9 @@ ACTION CreateRecipes:
 			MpRecipeXml_0.ErrorReset 			:= FALSE;
 			
 			// Setting default values for defaultRecipe.xml
-			CutterControl.Par.SyncRecipe.DegreesBefore := 10; // 10 degrees before the cut
-			CutterControl.Par.SyncRecipe.DegreesAfter := 10; // 10 degrees before the cut
-			CutterControl.Par.SyncRecipe.ConveyorDistance := 20; // 20 mm synced conveyor distance
+			MachineControl.Par.SyncRecipe.DegreesBefore := DEFAULT_DEG_BEFORE; // 10 degrees before the cut
+			MachineControl.Par.SyncRecipe.DegreesAfter := DEFAULT_DEG_AFTER; // 10 degrees before the cut
+			MachineControl.Par.SyncRecipe.ConveyorDistance := DEFAULT_MM_CONVEYOR; // 20 mm synced conveyor distance
 			
 			MpRecipeXml_0.FileName 				:= ADR(RECIPE_FILENAME);
 			MpRecipeXml_0.Save					:= TRUE;

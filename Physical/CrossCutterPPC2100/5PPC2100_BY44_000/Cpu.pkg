@@ -9,7 +9,7 @@
     <Object Type="Package" Description="Connectivity for communication with mapp View">Connectivity</Object>
     <Object Type="Package" Description="Text system ">TextSystem</Object>
     <Object Type="Package" Description="Unit system">UnitSystem</Object>
-    <Object Type="Package" Description="Access and Security configuration (NOT USED)">AccessAndSecurity</Object>
+    <Object Type="Package" Description="Access and Security configuration">AccessAndSecurity</Object>
     <Object Type="Package" Description="mapp Control config package, used for RegMark">mappControl</Object>
     <Object Type="Package" Description="mapp Motion config package">mappMotion</Object>
     <Object Type="Package" Description="mapp Services config package">mappServices</Object>

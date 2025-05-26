@@ -57,7 +57,9 @@ void _CYCLIC ProgramCyclic(void)
 			}
 			break;
 		
-		
+		case pmERROR:
+			{
+			}
 	}
 	
 	// Calling the function blocks cyclically

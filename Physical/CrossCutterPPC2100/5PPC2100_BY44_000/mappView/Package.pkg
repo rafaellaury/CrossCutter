@@ -7,5 +7,8 @@
     <Object Type="File" Description="Alarm page bindings">ContentAlarms.binding</Object>
     <Object Type="File">ContentManual.binding</Object>
     <Object Type="File">ContentAlarms.eventbinding</Object>
+    <Object Type="File">ContentLeft.binding</Object>
+    <Object Type="File">ContentMain.binding</Object>
+    <Object Type="File">ContentTop.binding</Object>
   </Objects>
 </Package>

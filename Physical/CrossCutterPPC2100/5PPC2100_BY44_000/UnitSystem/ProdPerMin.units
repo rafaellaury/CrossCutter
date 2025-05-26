@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Configuration>
+  <Element ID="ProductsPerMinute" Type="Units" Description="Products per minute speed unit">
+    <Property ID="Namespace" Value="http://www.br-automation.com/units" Description="B&amp;R namespace" />
+    <Property ID="UnitID" Value="5262641" Description="Generated unit ID" />
+    <Property ID="CommonCode" Value="PM1" Description="Products per minute (did not use PPM to avoid parts per million confusion)" />
+    <Property ID="TextSystemNamespace" Value="Localization/Units/User" Description="Default textsystem namespace" />
+    <Group ID="Classification[1]">
+      <Property ID="Group[1]" Value="Space and Time" />
+      <Property ID="Category[1]" Value="velocity, phase velocity, group velocity" />
+    </Group>
+  </Element>
+</Configuration>

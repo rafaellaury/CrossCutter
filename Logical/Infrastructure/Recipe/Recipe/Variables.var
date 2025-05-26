@@ -14,6 +14,11 @@ VAR
 	LoadRecipe : BOOL; (*Load recipe*)
 END_VAR
 (*local constants*)
-VAR
+VAR CONSTANT
 	RECIPE_FILENAME : STRING[255] := 'defaultRecipe.xml'; (*Default cutting recipe file name*)
+	DEFAULT_DEG_BEFORE : LREAL := 10; (*[°] Default degrees before cut*)
+	DEFAULT_DEG_AFTER : LREAL := 10; (*[°] Default degrees after cut*)
+END_VAR
+VAR
+	DEFAULT_MM_CONVEYOR : {REDUND_UNREPLICABLE} LREAL := 20; (*[mm] Default conveyor distance*)
 END_VAR

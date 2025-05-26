@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BindingsSet id="ContentMain_binding" xmlns="http://www.br-automation.com/iat2015/binding/engineering/v2" xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2" xmlns:be="http://www.br-automation.com/iat2015/bindingListEmbedded/engineering/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Bindings>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::MachineCon:AutomaticMode" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ToggleButtonAutomatic" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::MachineCon:ManualMode" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ToggleButtonManual" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Recipe:RecipeList" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ListBoxRecipe" attribute="dataProvider" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Recipe:MpRecipeUIConnect.Recipe.List.SelectedIndex" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ListBoxRecipe" attribute="selectedIndex" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Recipe:selectedValue" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ListBoxRecipe" attribute="selectedValue" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::Recipe:selectedValue" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputRecipe" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:MachineControl.Par.SyncRecipe.DegreesBefore" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputDegBefore" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:MachineControl.Par.SyncRecipe.DegreesAfter" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputDegAfter" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:MachineControl.Par.SyncRecipe.ConveyorDistance" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputConvDis" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Recipe:MpRecipeUIConnect.Recipe.Load" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="MomentaryPushManualStart1" attribute="value" />
+</Binding>
+
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::MachineCon:AutomaticStart" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="MomentaryPushAutoStart" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::MachineCon:AutomaticStop" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="MomentaryPushAutoStop" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::MachineCon:AutomaticReset" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="MomentaryPushManualReset" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::MachineCon:CutterEnable" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ToggleSwitchEnableCutter" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Status.Position" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputPos1" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Status.Velocity" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputVelocity1" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Status.ErrorText" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputCutErrorText" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Status.State" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputCutState" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Status.StatusID" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputStatusIDCut" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Status.Error" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ImageError1" attribute="visible" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Status.Error" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ImageError2" attribute="visible" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Status.MoveActive" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ImageMoveActive1" attribute="visible" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ConveyorControl.Status.MoveActive" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ImageMoveActive" attribute="visible" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Status.Position" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputPos" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Status.Velocity" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputVelocity" attribute="value" />
+</Binding>
+
+
+
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Status.State" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputConvState" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Status.StatusID" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputStatusIDConv" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:CutterControl.Status.ErrorText" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputConvErrorText" attribute="value" />
+</Binding>
+</Bindings>
+</BindingsSet>

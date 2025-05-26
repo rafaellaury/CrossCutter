@@ -14,7 +14,7 @@ PROGRAM _INIT
 	// Initialize MpRecipeRegPar function block and assign PV
 	MpRecipeRegPar_0.Enable := TRUE;
 	MpRecipeRegPar_0.MpLink := ADR(gCrossCutRecipeXml);
-	MpRecipeRegPar_0.PVName := ADR('::CutterControl.Par.SyncRecipe');
+	MpRecipeRegPar_0.PVName := ADR('::MachineControl.Par.SyncRecipe');
 	// Initialize MpRecipeUI function block
 	MpRecipeUI_0.Enable := TRUE;
 	MpRecipeUI_0.MpLink := ADR(gCrossCutRecipeXml);
@@ -28,8 +28,6 @@ PROGRAM _CYCLIC
 	selectedValue;
 	// Call CreateRecipe action to create default recipe
 	CreateRecipes;
-	// Load default recipe into PV
-	MpRecipeUIConnect.Recipe.Load;
 	
 	// Cyclically call all function blocks
 	MpRecipeXml_0();

@@ -17,8 +17,11 @@ VAR
 	AutomaticStart : BOOL; (*Start automatic mode button*)
 	AutomaticStop : BOOL; (*Stop button*)
 	AutomaticReset : BOOL; (*Reset button*)
-	CamSequence : MpAxisCamSequenceDataType; (*Cam sequence data type*)
 	CutterEnable : BOOL; (*Cutter enable*)
+END_VAR
+(*local structures*)
+VAR
+	CamSequence : MpAxisCamSequenceDataType; (*Cam sequence data type*)
 	CamAutomatParameters : McAcpAxCamAutParType; (*Definition of the cam sequence*)
 	MpAxisCamSeqParameters : MpAxisCamSequencerParType; (*Parameter structure for the cam sequencer*)
 END_VAR
@@ -26,8 +29,4 @@ END_VAR
 VAR CONSTANT
 	STATE_STANDSTILL : USINT := 1; (*Standstill state of the cam automat*)
 	CAM_AUTOMAT_DECELERATION : REAL := 10000; (*Matching cam automat deceleration to cutter axis*)
-END_VAR
-VAR
-	TriggerDetected : BOOL; (*Helper variable to latch the signal*)
-	PreviousState : USINT; (*Helper variable to track previous state*)
 END_VAR

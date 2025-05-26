@@ -12,9 +12,27 @@
       <GlobalVariables Name="Global Variables">
         <Variable Name="ConveyorControl" RecursiveEnable="2" />
         <Variable Name="CutterControl" RecursiveEnable="2" />
+        <Variable Name="MachineControl" RecursiveEnable="2" />
+        <Variable Name="PrintMarkControl" RecursiveEnable="2" />
       </GlobalVariables>
       <Task Name="Alarms">
         <Variable Name="CommsErrors" RecursiveEnable="2" />
+      </Task>
+      <Task Name="MachineCon">
+        <Variable Name="AutomaticMode" />
+        <Variable Name="AutomaticReset" />
+        <Variable Name="AutomaticStart" />
+        <Variable Name="AutomaticStop" />
+        <Variable Name="CutterEnable" />
+        <Variable Name="MachineErrors" />
+        <Variable Name="MachineOperatingStateText" />
+        <Variable Name="MachineStatus" />
+        <Variable Name="ManualMode" />
+      </Task>
+      <Task Name="Recipe">
+        <Variable Name="MpRecipeUIConnect" RecursiveEnable="2" />
+        <Variable Name="RecipeList" RecursiveEnable="2" />
+        <Variable Name="selectedValue" />
       </Task>
     </Module>
   </DefaultView>

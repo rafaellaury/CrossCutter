@@ -2,7 +2,7 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Package SubType="UserRoleSys" PackageType="UserRoleSys" xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
-    <Object Type="File">Role.role</Object>
-    <Object Type="File">User.user</Object>
+    <Object Type="File" Description="Role configuration">Role.role</Object>
+    <Object Type="File" Description="User configuration">User.user</Object>
   </Objects>
 </Package>

@@ -1,0 +1,4 @@
+(*global interface variables*)
+VAR
+	MachineControl : MachineControlType; (*Recipe PV for synchronized phase of the cutter*)
+END_VAR
