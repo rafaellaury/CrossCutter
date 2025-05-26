@@ -34,6 +34,8 @@
         <Property ID="Deceleration" Value="10000" />
       </Selector>
     </Selector>
-    <Selector ID="Alarms" Value="None" Description="No alarms directly on axis" />
+    <Selector ID="Alarms" Value="MpAlarmX" Description="No alarms directly on axis">
+      <Group ID="mapp.AlarmX.Core.Configuration" Description="mapp alarms configurations" />
+    </Selector>
   </Element>
 </Configuration>

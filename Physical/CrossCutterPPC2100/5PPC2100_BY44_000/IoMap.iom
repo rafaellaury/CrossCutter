@@ -1,4 +1,5 @@
-
 VAR_CONFIG
-
+	::Alarms:CommsErrors.PLKInterface2Error AT %IX."5ACCIF01.FPLK-000".IF1.LinkOk02;
+	::Alarms:CommsErrors.PLKInterface1Error AT %IX."5ACCIF01.FPLK-000".IF1.LinkOk;
+	::Alarms:CommsErrors.PLKInterfaceCardError AT %IX."5ACCIF01.FPLK-000".ModuleOk;
 END_VAR

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Configuration>
+  <Element ID="en" Type="Language" Description="English">
+    <Property ID="LanguageName" Value="English" Description="Name in english" />
+    <Property ID="NativeName" Value="English" Description="Name in language" />
+    <Property ID="IsDesignLanguage" Value="TRUE" Description="Design language" />
+  </Element>
+  <Element ID="de" Type="Language" Description="German">
+    <Property ID="LanguageName" Value="German" Description="Name in english" />
+    <Property ID="NativeName" Value="Deutsch" Description="Name in language" />
+    <Property ID="IsDesignLanguage" Description="Design language" />
+  </Element>
+</Configuration>

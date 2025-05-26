@@ -22,7 +22,9 @@ PROGRAM _INIT
 END_PROGRAM
 
 PROGRAM _CYCLIC
-		
+			
+	CommsErrors;
+	
 	// Calling all function blocks cyclically
 	MpAlarmXCore_0();
 	MpAlarmXHistory_0();

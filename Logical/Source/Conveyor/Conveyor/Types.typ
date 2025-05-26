@@ -5,6 +5,7 @@ TYPE
 		( (*Enum type for state machine variable*)
 		mcINIT := 0, (*Intial state*)
 		mcPOWER := 1, (*Powering on*)
+		mcRESET_ERROR := 6,
 		mcHOME := 2, (*Homing the axis*)
 		mcACTIVE := 3, (*Waiting for a move command*)
 		mcSTOP := 4,

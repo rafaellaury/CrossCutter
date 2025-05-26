@@ -31,31 +31,56 @@ void _INIT ProgramInit(void)
 
 void _CYCLIC ProgramCyclic(void)
 {
+	
 	// OVERALL OPERATION STATE MACHINE 
 	switch (OperatingState) {
 		// MANUAL MODE
 		case ccMANUAL:
-			// If manual mode is started
-			if (ManualStart) {
-				// Turn on cutter if it is not already turned on
-				if (CutterControl.Status.ReadyToStart && !CutterControl.Status.Error) {
-					CutterControl.Cmd.Start = 1;
-				}
-				// Turn on conveyor if it is not already turned on
-				if (ConveyorControl.Status.ReadyToStart && CutterControl.Status.ReadyForCommand && !ConveyorControl.Status.Error) {
-					ConveyorControl.Cmd.Start = 1;
-   Conveyor	Program impelementing conveyor functionality	Directory="C:\Users\lauryr\Downloads\ecamp\04\CrossCutter\Logical\Source\Conveyor\Conveyor";Path="C:\Users\lauryr\Downloads\ecamp\04\CrossCutter\Logical\Source\Conveyor\Conveyor\ANSIC.prg";Extension=".prg";RefPath="";Reference="False"
+			// Setting the state string
+			brsstrcpy((UDINT) MachineOperatingStateText, (UDINT) "Manual Mode");
+			// If AutomaticMode toggle button is pressed, switch to Automatic Mode
+			if (AutomaticMode) {
+				if (CutterControl.Status.MoveActive) {
+					brsstrcpy((UDINT) MachineStatus, (UDINT) "Machine in error");
+					brsstrcpy((UDINT) MachineErrors, (UDINT) "Error switching to Automatic Mode: please stop the cutter first");
+				} else {
+					OperatingState = ccAUTOMATIC;
+					AutomaticState = amINIT;
+					ManualMode = 0;
 				}
 			}
+			// Checking for errors and updating statuses accordingly
+			if (ConveyorControl.Status.Error || CutterControl.Status.Error) {
+				brsstrcpy((UDINT) MachineStatus, (UDINT) "Machine in error");
+				brsstrcpy((UDINT) MachineErrors, (UDINT) "Manual mode error: check the Manual Page");
+			} else {
+				brsstrcpy((UDINT) MachineStatus, (UDINT) "Machine operating normally");
+				brsstrcpy((UDINT) MachineErrors, (UDINT) "No errors present");
+			}
+			// All control is done manually via the HMI
+			ConveyorControl;
+			CutterControl;
 			break;
 		
 		// AUTOMATIC MODE
 		case ccAUTOMATIC:
-			
+			// Setting the state string
+			brsstrcpy((UDINT) MachineOperatingStateText, (UDINT) "Automatic Mode");
+			// Checking stop button
 			if (AutomaticStop) {
 				AutomaticState = amSTOP;
+			}	
+			// If ManualMode toggle button is pressed, switch to Manual Mode
+			if (ManualMode) {
+				if (CutterControl.Status.MoveActive || ConveyorControl.Status.MoveActive) { 
+					brsstrcpy((UDINT) MachineStatus, (UDINT) "Machine in error");
+					brsstrcpy((UDINT) MachineErrors, (UDINT) "Error switching to Manual Mode: please stop Automatic Mode first");
+				} else {
+					OperatingState = ccMANUAL;
+					AutomaticMode = 0;
+				}
 			}
-			
+			// AUTOMATIC STATE MACHINE
 			switch (AutomaticState) {
 				case amINIT:
 					if (AutomaticStart) {
@@ -153,6 +178,10 @@ void _CYCLIC ProgramCyclic(void)
 					
 					MpAxisCamSequencer_CrossCutter.StartSequence = 0;
 					MpAxisCamSequencer_CrossCutter.Enable = 0;
+						
+					if (AutomaticStart) {
+						OperatingState = amINIT;
+					}
 					break;
 			
 			

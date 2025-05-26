@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tmx version="1.4">
+  <header creationtool="B&amp;R Automation Studio" creationtoolversion="4.2" datatype="unknown" segtype="sentence" adminlang="en" srclang="en" o-tmf="TMX">
+    <note>Change the namespace to define where this text module should be located within the logical structure of your texts</note>
+    <prop type="x-BR-TS:Namespace">Localization/Units/User</prop>
+  </header>
+  <body>
+    <tu tuid="4477011.Name">
+      <tuv xml:lang="de">
+        <seg>grad pro sekunde quadrat</seg>
+      </tuv>
+      <tuv xml:lang="en">
+        <seg>degrees per second squared</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Mon unité</seg>
+      </tuv>
+    </tu>
+    <tu tuid="4477011.Sym">
+      <tuv xml:lang="de">
+        <seg>°/s²</seg>
+      </tuv>
+      <tuv xml:lang="en">
+        <seg>°/s²</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Unité</seg>
+      </tuv>
+    </tu>
+    <tu tuid="4477011.Desc">
+      <tuv xml:lang="de">
+        <seg>Unit of acceleration and deceleration for a rotary periodic axis</seg>
+      </tuv>
+      <tuv xml:lang="en">
+        <seg>Unit of acceleration and deceleration for a rotary periodic axis</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Ma description</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>

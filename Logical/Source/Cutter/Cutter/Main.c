@@ -11,45 +11,6 @@
 	#include <AsDefault.h>
 #endif
 
-// Helper function to set jogging boundaries according to current position
-void SetJoggingBoundaries()
-{
-	if (MpAxisParametersCutter.Position < 350.0 &&  MpAxisParametersCutter.Position > 180.0) {
-		CutterOnLeft = 1;
-		JogPositionLowerLimit = 200.0;
-		JogPositionUpperLimit = 360.0;
-		if (MpAxisBasic_Cutter.UpdateDone) {
-			MpAxisBasic_Cutter.Update = 0;
-		} 
-		if (CutterOnRight) {
-			MpAxisBasic_Cutter.Update = 1;
-			CutterOnRight = 0;
-		}
-	} else if (MpAxisParametersCutter.Position > 10.0 &&  MpAxisParametersCutter.Position < 180.0) {
-		CutterOnRight = 1;
-		JogPositionLowerLimit = 0.0;
-		JogPositionUpperLimit = 160.0;
-		if (MpAxisBasic_Cutter.UpdateDone) {
-			MpAxisBasic_Cutter.Update = 0;
-		} 
-		if (CutterOnLeft) {
-			MpAxisBasic_Cutter.Update = 1;
-			CutterOnLeft = 0;
-		}
-	} else {
-		JogPositionLowerLimit = 0;
-		JogPositionUpperLimit = 0;
-		if (MpAxisBasic_Cutter.UpdateDone) {
-			MpAxisBasic_Cutter.Update = 0;
-		} 
-		if (CutterOnLeft || CutterOnRight) {
-			MpAxisBasic_Cutter.Update = 1;
-			CutterOnLeft = 0;
-			CutterOnRight = 0;
-		}
-	}
-}
-
 // Helper function to assign parameters cyclically
 void AssignParameters()
 {
@@ -81,8 +42,6 @@ void ClearEncoderError()
 	MC_BR_ProcessParID_Cutter.DataAddress = &EncoderProcessParIDType;
 	MC_BR_ProcessParID_Cutter.Mode = mcACPAX_PARID_SET;
 	MC_BR_ProcessParID_Cutter.NumberOfParIDs = 1;
-	// Calling the function block
-	MC_BR_ProcessParID_AcpAx(&MC_BR_ProcessParID_Cutter);
 }
 
 // Init subroutine that runs only once
@@ -121,6 +80,8 @@ void _CYCLIC ProgramCyclic(void)
 		// Initial state, wait for Start command and then move to power on state
 		case mcINIT:
 			brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter initializing");
+			brsstrcpy((UDINT) CutterControl.Status.ErrorText, (UDINT) "No alarms, normal operation");
+			brsstrcpy((UDINT) CutterControl.Status.State, (UDINT) "Initialization");
 			if (MpAxisBasic_Cutter.Info.PLCopenState != mcAXIS_STARTUP && !MpAxisBasic_Cutter.Error) {
 				if (ErrorClearAttempt) {
 					MpAxisBasic_Cutter.ErrorReset = 0;
@@ -141,6 +102,7 @@ void _CYCLIC ProgramCyclic(void)
 					ErrorClearAttempt = 1;
 				} 
 				else {
+					brsstrcpy((UDINT) CutterControl.Status.ErrorText, (UDINT) "Error while initializing, check Diagnostics page");
 					CutterControl.Status.ReadyToStart = 0;
 					MotionControlState = mcERROR;
 					CutterControl.Status.Error = 1;
@@ -151,11 +113,13 @@ void _CYCLIC ProgramCyclic(void)
 		// Power state, if not already powered on, power on the axis and move on to home
 		case mcPOWER:
 			brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter powering on");
+			brsstrcpy((UDINT) CutterControl.Status.State, (UDINT) "Power");
 			if (!MpAxisBasic_Cutter.PowerOn && !MpAxisBasic_Cutter.Error) {
 				MpAxisBasic_Cutter.Power = 1;
 			} else if (MpAxisBasic_Cutter.PowerOn && !MpAxisBasic_Cutter.Error) {
 				MotionControlState = mcHOME;	
 			} else if (MpAxisBasic_Cutter.Error) {
+				brsstrcpy((UDINT) CutterControl.Status.ErrorText, (UDINT) "Error while powering up, check active alarms");
 				MotionControlState = mcERROR;
 				CutterControl.Status.Error = 1;
 			}
@@ -164,6 +128,7 @@ void _CYCLIC ProgramCyclic(void)
 		// Homing state, if not already homed, home the axis and move to ready for command
 		case mcHOME:
 			brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter homing");
+			brsstrcpy((UDINT) CutterControl.Status.State, (UDINT) "Homing");
 			if (!MpAxisBasic_Cutter.IsHomed && !MpAxisBasic_Cutter.Error) {
 				MpAxisBasic_Cutter.Home = 1;
 			} else if (MpAxisBasic_Cutter.IsHomed && !MpAxisBasic_Cutter.Error) {
@@ -179,6 +144,8 @@ void _CYCLIC ProgramCyclic(void)
 					MotionControlState = mcACTIVE;
 				}
 			} else if (MpAxisBasic_Cutter.Error) {
+				brsstrcpy((UDINT) CutterControl.Status.ErrorText, (UDINT) "Error while homing, check active alarms");
+				MpAxisBasic_Cutter.Home = 0;
 				MotionControlState = mcERROR;
 			}
 			break;
@@ -187,6 +154,7 @@ void _CYCLIC ProgramCyclic(void)
 		case mcACTIVE:
 			if (CutterControl.Cmd.MoveVelocity && !MpAxisBasic_Cutter.Error) {
 				brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter is moving");
+				brsstrcpy((UDINT) CutterControl.Status.State, (UDINT) "Active");
 				MpAxisBasic_Cutter.MoveVelocity = 1;
 				MpAxisBasic_Cutter.MoveAbsolute = 0;
 				MpAxisBasic_Cutter.JogPositive = 0;
@@ -199,20 +167,32 @@ void _CYCLIC ProgramCyclic(void)
 				MpAxisBasic_Cutter.JogNegative = 0;
 			} else if (CutterControl.Cmd.JogForward && !MpAxisBasic_Cutter.Error) {
 				brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter jogging forward");
+				// Setting the jog limit positions
+				JogPositionLowerLimit = -360;
+				if (MpAxisBasic_Cutter.Position > 200) {
+					JogPositionUpperLimit = 720;
+				} else {
+						JogPositionUpperLimit = 160;
+				}
 				MpAxisBasic_Cutter.MoveVelocity = 0;
 				MpAxisBasic_Cutter.MoveAbsolute = 0;
 				MpAxisBasic_Cutter.JogNegative = 0;
 				MpAxisBasic_Cutter.JogPositive = 1;
 				// Avoid jogging through the cutting position
-				SetJoggingBoundaries();
+				//SetJoggingBoundaries();
 			} else if (CutterControl.Cmd.JogBackward && !MpAxisBasic_Cutter.Error) {
 				brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter jogging backward");
+				// Setting the jog limit positions
+				JogPositionUpperLimit = 720;
+				if (MpAxisBasic_Cutter.Position < 160.0) {
+					JogPositionLowerLimit = -360;
+				} else {
+					JogPositionLowerLimit = 200;
+				}
 				MpAxisBasic_Cutter.MoveVelocity = 0;
 				MpAxisBasic_Cutter.MoveAbsolute = 0;
 				MpAxisBasic_Cutter.JogNegative = 1;
 				MpAxisBasic_Cutter.JogPositive = 0;
-				// Avoid jogging through the cutting position
-				SetJoggingBoundaries();
 			} else if (MpAxisBasic_Cutter.Error) {
 				MpAxisBasic_Cutter.MoveVelocity = 0;
 				MpAxisBasic_Cutter.MoveAbsolute = 0;
@@ -220,6 +200,7 @@ void _CYCLIC ProgramCyclic(void)
 				MpAxisBasic_Cutter.JogNegative = 0;
 				MotionControlState = mcERROR;
 				CutterControl.Status.Error = 1;
+				brsstrcpy((UDINT) CutterControl.Status.ErrorText, (UDINT) "Error during movement, check active alarms");
 			} else if (MpAxisBasic_Cutter.Info.PLCopenState == mcAXIS_SYNCHRONIZED_MOTION) {
 				MotionControlState = mcIN_CAM;
 			} else {
@@ -244,6 +225,7 @@ void _CYCLIC ProgramCyclic(void)
 		// Stop state, Cutter has been stopped
 		case mcSTOP:
 			brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter stopped");
+			brsstrcpy((UDINT) CutterControl.Status.State, (UDINT) "Stop");
 			CutterControl.Status.ReadyForCommand = 0;
 			CutterControl.Cmd.MoveVelocity = 0;
 			CutterControl.Cmd.JogForward = 0;
@@ -253,6 +235,7 @@ void _CYCLIC ProgramCyclic(void)
 			} else if (MpAxisBasic_Cutter.Error) {
 				CutterControl.Status.Error = 1;
 				MotionControlState = mcERROR;
+				brsstrcpy((UDINT) CutterControl.Status.ErrorText, (UDINT) "Error while stopping, check active alarms");
 			} else if (CutterControl.Cmd.Start) {
 				MotionControlState = mcINIT;
 			} else {
@@ -264,6 +247,7 @@ void _CYCLIC ProgramCyclic(void)
 		// Error state, must reset to clear
 		case mcERROR:
 			brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter in error, needs to be reset");
+			brsstrcpy((UDINT) CutterControl.Status.State, (UDINT) "Error");
 			// Reset when signal is received
 			CutterControl.Status.ReadyForCommand = 0;
 			CutterControl.Cmd.MoveVelocity = 0;
@@ -275,10 +259,11 @@ void _CYCLIC ProgramCyclic(void)
 				MpAxisBasic_Cutter.ErrorReset = 0;
 				CutterControl.Status.Error = 0;
 				MotionControlState = mcINIT;
+				brsstrcpy((UDINT) CutterControl.Status.ErrorText, (UDINT) "No alarms, normal operation");
 			}
 			break;
 	}
-	
+		
 	// Setting the MpAxisParametersCutter structure values cyclically
 	AssignParameters();
 		
@@ -287,13 +272,18 @@ void _CYCLIC ProgramCyclic(void)
 	// Calling the function block cyclically
 	MpAxisBasic(&MpAxisBasic_Cutter);
 	// Assigning the statuses to the control structure
-	CutterControl.Status.Error = MpAxisBasic_Cutter.Error;
 	CutterControl.Status.Position = MpAxisBasic_Cutter.Position;
+	CutterControl.Status.Velocity = MpAxisBasic_Cutter.Velocity;
 	CutterControl.Status.MoveActive = MpAxisBasic_Cutter.MoveActive;
+	CutterControl.Status.Error = MpAxisBasic_Cutter.Error;
+	CutterControl.Status.StatusID = MpAxisBasic_Cutter.StatusID;
 	
 	// Calling MC_Halt function block cyclically and assigning deceleration
 	MC_Halt_Cutter.Deceleration = MpAxisParametersCutter.Deceleration;
 	MC_Halt(&MC_Halt_Cutter);
+	
+	// Calling the function block
+	MC_BR_ProcessParID_AcpAx(&MC_BR_ProcessParID_Cutter);
 	
 }
 

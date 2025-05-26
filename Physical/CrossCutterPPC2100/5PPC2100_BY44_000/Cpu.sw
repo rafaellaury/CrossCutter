@@ -12,6 +12,7 @@
     <Task Name="Alarms" Source="Infrastructure.Alarms.Alarms.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="Recipe" Source="Infrastructure.Recipe.Recipe.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="PrintMarkD" Source="Source.PrintMarkDetect.PrintMarkDetect.prg" Memory="UserROM" Language="ANSIC" Debugging="true" />
+    <Task Name="HMIHelper" Source="Infrastructure.HMIHelper.HMIHelper.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
