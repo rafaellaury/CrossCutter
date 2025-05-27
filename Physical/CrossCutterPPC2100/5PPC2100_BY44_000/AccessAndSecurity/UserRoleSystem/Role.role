@@ -1,10 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
 <Configuration>
-  <Element ID="Administrators" Type="Role">
-    <Property ID="RoleID" Value="1" />
+  <Element ID="Administrators" Type="Role" Description="Name of role">
+    <Property ID="RoleID" Value="1" Description="Role ID" />
+    <Property ID="Description" Value="Role for administrators, full access" Description="Admins have full access" />
   </Element>
-  <Element ID="Everyone" Type="Role" >
-    <Property ID="RoleID" Value="2" />
+  <Element ID="Everyone" Type="Role" Description="Average joe">
+    <Property ID="RoleID" Value="2" Description="Role ID" />
+    <Property ID="Description" Value="Role for the general user, view only" Description="Description of role" />
+  </Element>
+  <Element ID="Service" Type="Role" Description="Service technician role">
+    <Property ID="RoleID" Value="3" Description="Role ID" />
+    <Property ID="Description" Value="Role for service technicians" Description="Access to Diagnostics page, main page and alarms" />
+  </Element>
+  <Element ID="Operator" Type="Role" Description="Operator role">
+    <Property ID="RoleID" Value="4" Description="Role ID" />
+    <Property ID="Description" Value="Role for operators" Description="Access to main page, manual page, and alarms- most controls" />
   </Element>
 </Configuration>

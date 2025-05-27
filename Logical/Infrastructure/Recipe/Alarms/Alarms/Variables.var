@@ -4,4 +4,5 @@ VAR
 	MpAlarmXHistory_0 : MpAlarmXHistory; (*Alarm history function block instance*)
 	MpAlarmXAcknowledgeAll_0 : MpAlarmXAcknowledgeAll; (*Alarm acknowledge all function block instance*)
 	CommsErrors : CommsErrorsType;
+	AlarmString : STRING[80]; (*Alarm string for HMI*)
 END_VAR

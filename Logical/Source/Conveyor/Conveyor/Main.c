@@ -157,9 +157,9 @@ void _CYCLIC ProgramCyclic(void)
 			break;
 		// Active state, process run commands
 		case mcACTIVE:
-			brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor is moving");
 			brsstrcpy((UDINT) ConveyorControl.Status.State, (UDINT) "Active");
 			if (ConveyorControl.Cmd.MoveVelocity && !MpAxisBasic_Conveyor.Error) {
+				brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor is moving");
 				MpAxisBasic_Conveyor.MoveVelocity = 1;
 				MpAxisBasic_Conveyor.JogPositive = 0;
 				MpAxisBasic_Conveyor.JogNegative = 0;

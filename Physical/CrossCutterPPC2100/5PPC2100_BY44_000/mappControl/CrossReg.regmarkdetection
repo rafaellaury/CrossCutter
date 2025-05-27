@@ -36,6 +36,13 @@
         <Property ID="ActualProductLength" Value="::PrintMarkControl.Status.LastPrintMarkWidth" />
       </Group>
     </Group>
-    <Selector ID="Alarms" Value="MpAlarmX" />
+    <Selector ID="Alarms" Value="MpAlarmX" Description="Prebuilt MpAlarmX alarms">
+      <Group ID="mapp.AlarmX.Core.Configuration" Description="mapp Alarm configurations">
+        <Group ID="[0]" Description="Parameter invalid" />
+        <Group ID="[1]" Description="Configuration not saved" />
+        <Group ID="[2]" Description="Invalid command" />
+        <Group ID="[3]" Description="Missed mark alarm" />
+      </Group>
+    </Selector>
   </Element>
 </Configuration>

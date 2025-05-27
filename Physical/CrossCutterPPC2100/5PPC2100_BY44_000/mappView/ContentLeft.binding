@@ -5,5 +5,9 @@
 <Source xsi:type="opcUa" refId="::MachineCon:ManualMode" attribute="value" />
 <Target xsi:type="brease" contentRefId="ContentLeft" widgetRefId="NavigationButtonManualPage" attribute="enable" />
 </Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::Alarms:AlarmString" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentLeft" widgetRefId="NavigationButtonAlarmsPage" attribute="image" />
+</Binding>
 </Bindings>
 </BindingsSet>

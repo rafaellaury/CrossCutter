@@ -27,7 +27,7 @@ VAR
 END_VAR
 (*local structures*)
 VAR
-	MpRecipeUIConnect : MpRecipeUIConnectType := (Recipe:=(Filter:='*xml'),New:=(FileName:='newRecipe.xml')); (*MpRecipeUI connection datapoints*)
+	MpRecipeUIConnect : MpRecipeUIConnectType := (Recipe:=(Filter:='*xml')); (*MpRecipeUI connection datapoints*)
 	NewSyncRecipe : SyncRecipeType; (*Sync recipe for new recipes*)
 END_VAR
 (*local enumerators*)

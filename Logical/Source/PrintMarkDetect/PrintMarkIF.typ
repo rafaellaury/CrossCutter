@@ -6,7 +6,9 @@ TYPE
 		Stop : BOOL; (*Stop detecting print marks*)
 	END_STRUCT;
 	PrintMarkParType : 	STRUCT  (*Print mark parameter type*)
-		Temp : BOOL; (*Temp*)
+		PrintMarkMaxWidth : LREAL := 12.0; (*[mm] Maximum print mark width*)
+		PrintMarkMinWidth : LREAL := 8.0; (*[mm] Minimum print mark width*)
+		WindowWidth : LREAL := 30.0; (*[mm] Expectation window width*)
 	END_STRUCT;
 	PrintMarkStatusType : 	STRUCT  (*Statuses for print mark*)
 		ValidMarkDetected : BOOL; (*Print mark detected*)

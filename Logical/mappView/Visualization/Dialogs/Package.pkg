@@ -4,5 +4,6 @@
   <Objects>
     <Object Type="Package" Description="AreaContents">AreaContents</Object>
     <Object Type="Package" Description="New recipe dialog">NewRecipeDialog</Object>
+    <Object Type="Package" Description="LoginDialog">LoginDialog</Object>
   </Objects>
 </Package>

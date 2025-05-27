@@ -133,5 +133,57 @@
 <Source xsi:type="opcUa" refId="::Recipe:NewRecipe" attribute="value" />
 <Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="MomentaryPushManualReset1" attribute="value" />
 </Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::MachineCon:AutomaticStateText" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputAutoState" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::MachineCon:AutomaticStatus" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputCutErrorText2" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::MachineCon:AutomaticErrorText" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="TextOutputCutErrorText1" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::MachineCon:MachineError" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ImageError" attribute="visible" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::MachineCon:ProductsPerMinVelocity" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericInputProdPerMin" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Par.WindowWidth" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericInputProdPerMin1" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Par.PrintMarkMaxWidth" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericInputProdPerMin2" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Par.PrintMarkMinWidth" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericInputProdPerMin3" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Status.AverageDistance" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputPos2" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Status.LastCutDistance" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputPos3" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Status.TotalValidMarks" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputPos4" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Status.LastPrintMarkWidth" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputPos6" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Status.TotalMissedMarks" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputPos5" attribute="value" />
+</Binding>
 </Bindings>
 </BindingsSet>

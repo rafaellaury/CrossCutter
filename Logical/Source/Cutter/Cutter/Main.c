@@ -154,9 +154,9 @@ void _CYCLIC ProgramCyclic(void)
 
 		// Active state, process run commands
 		case mcACTIVE:
+			brsstrcpy((UDINT) CutterControl.Status.State, (UDINT) "Active");
 			if (CutterControl.Cmd.MoveVelocity && !MpAxisBasic_Cutter.Error) {
 				brsstrcpy((UDINT) CutterControl.Status.Status, (UDINT) "Cutter is moving");
-				brsstrcpy((UDINT) CutterControl.Status.State, (UDINT) "Active");
 				MpAxisBasic_Cutter.MoveVelocity = 1;
 				MpAxisBasic_Cutter.MoveAbsolute = 0;
 				MpAxisBasic_Cutter.JogPositive = 0;

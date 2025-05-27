@@ -5,13 +5,15 @@
     <Object Type="File" Description="Configuration for mapp View">Config.mappviewcfg</Object>
     <Object Type="File" Description="Visualization configuration">CrossVis.vis</Object>
     <Object Type="File" Description="Alarm page bindings">ContentAlarms.binding</Object>
-    <Object Type="File">ContentManual.binding</Object>
-    <Object Type="File">ContentAlarms.eventbinding</Object>
-    <Object Type="File">ContentLeft.binding</Object>
-    <Object Type="File">ContentMain.binding</Object>
-    <Object Type="File">ContentTop.binding</Object>
-    <Object Type="File">ContentNewRecipe.binding</Object>
-    <Object Type="File">ContentMain.eventbinding</Object>
-    <Object Type="File">ContentNewRecipe.eventbinding</Object>
+    <Object Type="File" Description="Manual page bindings">ContentManual.binding</Object>
+    <Object Type="File" Description="Alarms bindings">ContentAlarms.eventbinding</Object>
+    <Object Type="File" Description="Content left bindings">ContentLeft.binding</Object>
+    <Object Type="File" Description="Content main bindings">ContentMain.binding</Object>
+    <Object Type="File" Description="Content top bindings">ContentTop.binding</Object>
+    <Object Type="File" Description="New recipe bindings">ContentNewRecipe.binding</Object>
+    <Object Type="File" Description="Main event bindings">ContentMain.eventbinding</Object>
+    <Object Type="File" Description="New recipe event bindigns">ContentNewRecipe.eventbinding</Object>
+    <Object Type="File" Description="Login event bindings">ContentLogin.eventbinding</Object>
+    <Object Type="File" Description="Left event bindings">ContentLeft.eventbinding</Object>
   </Objects>
 </Package>

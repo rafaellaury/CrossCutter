@@ -19,6 +19,7 @@ PROGRAM _INIT
 	MpRecipeUI_0.Enable := TRUE;
 	MpRecipeUI_0.MpLink := ADR(gCrossCutRecipeXml);
 	MpRecipeUI_0.UIConnect := ADR(MpRecipeUIConnect);
+	MpRecipeUIConnect.Recipe.SortOrder := mpRECIPE_UI_SORT_DATE_ASCENDING;
 	 
 END_PROGRAM
 

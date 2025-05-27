@@ -17,6 +17,7 @@
       </GlobalVariables>
       <Task Name="Alarms">
         <Variable Name="CommsErrors" RecursiveEnable="2" />
+        <Variable Name="AlarmString" />
       </Task>
       <Task Name="MachineCon">
         <Variable Name="AutomaticMode" />
@@ -28,6 +29,12 @@
         <Variable Name="MachineOperatingStateText" />
         <Variable Name="MachineStatus" />
         <Variable Name="ManualMode" />
+        <Variable Name="AutomaticErrorText" />
+        <Variable Name="AutomaticState" />
+        <Variable Name="AutomaticStateText" />
+        <Variable Name="AutomaticStatus" />
+        <Variable Name="MachineError" />
+        <Variable Name="ProductsPerMinVelocity" />
       </Task>
       <Task Name="Recipe">
         <Variable Name="MpRecipeUIConnect" RecursiveEnable="2" />

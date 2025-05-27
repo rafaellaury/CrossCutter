@@ -9,15 +9,15 @@
   <TaskClass Name="Cyclic#2" />
   <TaskClass Name="Cyclic#3" />
   <TaskClass Name="Cyclic#4">
-    <Task Name="Alarms" Source="Infrastructure.Recipe.Alarms.Alarms.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="Recipe" Source="Infrastructure.Recipe.Recipe.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="PrintMarkD" Source="Source.PrintMarkDetect.PrintMarkDetect.prg" Memory="UserROM" Language="ANSIC" Debugging="true" />
-    <Task Name="HMIHelper" Source="Infrastructure.HMIHelper.HMIHelper.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
   <TaskClass Name="Cyclic#7" />
-  <TaskClass Name="Cyclic#8" />
+  <TaskClass Name="Cyclic#8">
+    <Task Name="Alarms" Source="Infrastructure.Recipe.Alarms.Alarms.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="Recipe" Source="Infrastructure.Recipe.Recipe.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+  </TaskClass>
   <DataObjects>
     <DataObject Name="McAcpSys" Source="" Memory="UserROM" Language="Binary" />
   </DataObjects>
@@ -35,6 +35,7 @@
     <BinaryObject Name="FWRules" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="arcoal" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="arsvcreg" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="TCLang" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="Settings" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="iomap" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="asfw" Source="" Memory="SystemROM" Language="Binary" />
@@ -48,9 +49,13 @@
     <BinaryObject Name="CutterCam" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="CrossAlaHi" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="ashwd" Source="" Memory="SystemROM" Language="Binary" />
-    <BinaryObject Name="Config" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="User" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="CrossRec" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="ProdPerMin" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="CrossReg" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="DegPerSec" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="TC" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="Config" Source="" Memory="UserROM" Language="Binary" />
   </Binaries>
   <Libraries>
     <LibraryObject Name="CoTrace" Source="Libraries.CoTrace.lby" Memory="UserROM" Language="binary" Debugging="true" />

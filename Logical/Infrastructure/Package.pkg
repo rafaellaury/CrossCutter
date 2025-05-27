@@ -3,7 +3,6 @@
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
     <Object Type="Package" Description="Recipe handling package">Recipe</Object>
-    <Object Type="Package" Description="HMI helper package">HMIHelper</Object>
     <Object Type="File" Description="Languages for project">Project.language</Object>
     <Object Type="File" Description="Unit texts for degrees per second squared">UnitTexts.tmx</Object>
   </Objects>

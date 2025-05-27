@@ -34,9 +34,10 @@ ACTION CreateNewRecipeAction:
 				RecipeStatus := 'Degrees Before and Degrees After must be equal';
 				CreateAccepted := FALSE;
 			ELSIF NewSyncRecipe.ConveyorDistance <> (NewSyncRecipe.DegreesAfter + NewSyncRecipe.DegreesBefore) THEN
-				RecipeStatus := 'Conveyor distance must equal the sum of degrees before and after';
+				RecipeStatus := 'Distance must equal the sum of degrees before and after';
 				CreateAccepted := FALSE;
 			ELSE
+				RecipeStatus := 'Valid entry';
 				CreateAccepted := TRUE;
 			END_IF
 			
@@ -58,11 +59,9 @@ ACTION CreateNewRecipeAction:
 			
 		REFRESH:	// refresh the recipe list to make sure all the recipes are shown
 			
-			IF(MpRecipeXml_0.CommandDone) THEN
-				RecipeCreateStepNew := DONE_1;
-				MpRecipeUIConnect.New.Create := FALSE;
-				MpRecipeUIConnect.Recipe.Refresh := TRUE;
-			END_IF;	
+			RecipeCreateStepNew := DONE_1;
+			MpRecipeUIConnect.New.Create := FALSE;
+			MpRecipeUIConnect.Recipe.Refresh := TRUE;
 			
 		DONE_1:	// if creation was successful or the creation was cancelled, the creation of the recipes is done
 		

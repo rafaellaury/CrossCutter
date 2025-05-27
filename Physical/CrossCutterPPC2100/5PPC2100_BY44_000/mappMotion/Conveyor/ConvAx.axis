@@ -35,7 +35,14 @@
       </Selector>
     </Selector>
     <Selector ID="Alarms" Value="MpAlarmX" Description="No alarms directly on axis">
-      <Group ID="mapp.AlarmX.Core.Configuration" Description="mapp alarms configurations" />
+      <Group ID="mapp.AlarmX.Core.Configuration" Description="mapp alarms configurations">
+        <Group ID="[2]">
+          <Property ID="Message" Value="Parameter problem, possibly an issue with the encoder. Check the logger" />
+        </Group>
+        <Group ID="[3]">
+          <Property ID="Message" Value="Error during operation, check the logger" />
+        </Group>
+      </Group>
     </Selector>
   </Element>
 </Configuration>

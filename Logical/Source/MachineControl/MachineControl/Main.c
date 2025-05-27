@@ -26,7 +26,6 @@ void _INIT ProgramInit(void)
 	MpAxisCamSeqParameters.CamSequence.Set.Command = mcSET_ALL_PAR_FROM_OBJ;
 	MpAxisCamSeqParameters.CamSequence.Set.Mode = mcAXIS_CAM_SEQ_SET_ON_START;
 	MpAxisCamSeqParameters.Deceleration = CAM_AUTOMAT_DECELERATION;
-	
 }
 
 void _CYCLIC ProgramCyclic(void)
@@ -38,13 +37,16 @@ void _CYCLIC ProgramCyclic(void)
 		case ccMANUAL:
 			// Setting the state string
 			brsstrcpy((UDINT) MachineOperatingStateText, (UDINT) "Manual Mode");
+			
 			// If AutomaticMode toggle button is pressed, switch to Automatic Mode
 			if (AutomaticMode) {
 				if (CutterControl.Status.MoveActive) {
 					brsstrcpy((UDINT) MachineStatus, (UDINT) "Machine in error");
 					brsstrcpy((UDINT) MachineErrors, (UDINT) "Error switching to Automatic Mode: please stop the cutter first");
+					MachineControl.Status.ManAlarm1 = 1;
 				} else {
 					OperatingState = ccAUTOMATIC;
+					MachineControl.Status.ManAlarm1 = 0;
 					ConveyorControl.Cmd.Stop = 1;
 					CutterControl.Cmd.Stop = 1;
 					AutomaticState = amINIT;
@@ -68,17 +70,20 @@ void _CYCLIC ProgramCyclic(void)
 		case ccAUTOMATIC:
 			// Setting the state string
 			brsstrcpy((UDINT) MachineOperatingStateText, (UDINT) "Automatic Mode");
+			brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Automatic Mode starting up");
 			// Checking stop button
 			if (AutomaticStop) {
 				AutomaticState = amSTOP;
 			}
 			
+			ConveyorControl.Cmd.Reset = AutomaticReset;
+			CutterControl.Cmd.Reset = AutomaticReset;
+			MpAxisCamSequencer_CrossCutter.ErrorReset = AutomaticReset;
 			if (AutomaticReset) {
-				ConveyorControl.Cmd.Reset = 1;
-				CutterControl.Cmd.Reset = 1;
-				MpAxisCamSequencer_CrossCutter.ErrorReset = 1;
 				MpAxisCamSequencer_CrossCutter.GetSequence = 0;
 				MpAxisCamSequencer_CrossCutter.StartSequence = 0;
+				brsstrcpy((UDINT) MachineErrors, (UDINT) "No errors present");
+				MachineError = 0;
 				AutomaticState = amINIT;
 			}
 			// If ManualMode toggle button is pressed, switch to Manual Mode
@@ -86,15 +91,20 @@ void _CYCLIC ProgramCyclic(void)
 				if (CutterControl.Status.MoveActive || ConveyorControl.Status.MoveActive) { 
 					brsstrcpy((UDINT) MachineStatus, (UDINT) "Machine in error");
 					brsstrcpy((UDINT) MachineErrors, (UDINT) "Error switching to Manual Mode: please stop Automatic Mode first");
+					MachineControl.Status.AutoAlarm5 = 1;
 					ManualMode = 0;
 				} else {
+					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Machine in Manual Mode");
 					OperatingState = ccMANUAL;
+					MachineControl.Status.AutoAlarm5 = 0;
 					AutomaticMode = 0;
 				}
 			}
 			// AUTOMATIC STATE MACHINE
 			switch (AutomaticState) {
 				case amINIT:
+					brsstrcpy((UDINT) AutomaticStateText, (UDINT) "Initializing");
+					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Machine powering and homing");
 				
 					ConveyorControl.Cmd.Reset = 0;
 					CutterControl.Cmd.Reset = 0;
@@ -126,6 +136,8 @@ void _CYCLIC ProgramCyclic(void)
 						CutterControl.Cmd.Start = 0;
 						AutomaticState = amGET_CAMAUT_DATA;
 					} else if (ConveyorControl.Status.Error || CutterControl.Status.Error) {
+						brsstrcpy((UDINT) AutomaticErrorText, (UDINT) "Error while initializing");
+						MachineControl.Status.AutoAlarm4 = 1;
 						ConveyorControl.Cmd.Start = 0;
 						CutterControl.Cmd.Start = 0;
 						AutomaticState = amERROR;
@@ -134,12 +146,16 @@ void _CYCLIC ProgramCyclic(void)
 					break;
 					
 				case amGET_CAMAUT_DATA:
+					brsstrcpy((UDINT) AutomaticStateText, (UDINT) "Get Cam Automat Data");
+					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Preparing the cam automat");
 					MpAxisCamSequencer_CrossCutter.GetSequence = 1;
 					
 					if (MpAxisCamSequencer_CrossCutter.GetSequenceDone) {
 						AutomaticState = amWAITING;
 					} else if (MpAxisCamSequencer_CrossCutter.Error) {
 						AutomaticState = amERROR;
+						MachineControl.Status.AutoAlarm3 = 1;
+						brsstrcpy((UDINT) AutomaticErrorText, (UDINT) "Error getting cam automat data");
 					}
 				
 					break;
@@ -147,12 +163,16 @@ void _CYCLIC ProgramCyclic(void)
 			
 			
 				case amWAITING:
+					brsstrcpy((UDINT) AutomaticStateText, (UDINT) "Waiting");
+					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Press Start to run machine");
 					if (AutomaticStart) {
 						AutomaticState = amSTART_CAMAUT;
 					}
 					break;
 			
 				case amSTART_CAMAUT:
+					brsstrcpy((UDINT) AutomaticStateText, (UDINT) "Start Cam Automat");
+					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Cam Automat has been enabled");
 					if (MpAxisCamSequencer_CrossCutter.Active) {
 						MpAxisCamSequencer_CrossCutter.StartSequence = 1;
 						AutomaticState = amSTART_CONVEYOR;
@@ -160,28 +180,38 @@ void _CYCLIC ProgramCyclic(void)
 					break;
 				
 				case amSTART_CONVEYOR:
+					brsstrcpy((UDINT) AutomaticStateText, (UDINT) "Start Conveyor");
+					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Starting master axis motion");
 					if (!ConveyorControl.Status.MoveActive) {
 						ConveyorControl.Cmd.MoveVelocity = 1;
 					}
 					if (ConveyorControl.Status.MoveActive) {
 						AutomaticState = amSTART_MOVEMENT;
+					} else if (ConveyorControl.Status.Error) {
+						brsstrcpy((UDINT) AutomaticErrorText, (UDINT) "Error in conveyor axis");
+						MachineControl.Status.AutoAlarm2 = 1;	
+						AutomaticState = amERROR;
 					}
 					break;
 			
 				case amSTART_MOVEMENT:
+					brsstrcpy((UDINT) AutomaticStateText, (UDINT) "Start Movement");
+					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Enable Cutter to begin cam");
 					if (CutterEnable && PrintMarkControl.Status.ValidMarkDetected) {
 						AutomaticState = amMOVING;
 					}
 					break;
 			
 				case amMOVING:
+					brsstrcpy((UDINT) AutomaticStateText, (UDINT) "Moving");
+					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Cross cutter running in cam");
 					if (!CutterEnable) {
 						MpAxisCamSequencer_CrossCutter.Signal1 = 0;
 						AutomaticState = amSTART_MOVEMENT;
 					} else {
 						MpAxisCamSequencer_CrossCutter.Signal1 = !PrintMarkControl.Status.ValidMarkDetected;
 					}
-			
+					// If a cut has been made, update the factors and compensation according to inputs from recipe
 					if (CutterControl.Status.Position > 180.0) {
 						CamAutomatParameters.State[2].MasterFactor = (MachineControl.Par.SyncRecipe.ConveyorDistance) * 100.0;
 						CamAutomatParameters.State[2].SlaveFactor = (MachineControl.Par.SyncRecipe.DegreesAfter + MachineControl.Par.SyncRecipe.DegreesBefore) * -100.0;
@@ -193,14 +223,39 @@ void _CYCLIC ProgramCyclic(void)
 							MpAxisCamSequencer_CrossCutter.Update = 0;
 						}
 					}
+					if (MpAxisCamSequencer_CrossCutter.Error) {
+						brsstrcpy((UDINT) AutomaticErrorText, (UDINT) "Error during cammed motion");
+						MachineControl.Status.AutoAlarm1 = 1;
+						AutomaticState = amERROR;
+					}
+					
 					break;
 			
 				case amERROR:
-				
+					brsstrcpy((UDINT) AutomaticStateText, (UDINT) "Error");
+					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Error during operation");
+					MachineError = 1;
+					if (AutomaticReset) {
+						brsstrcpy((UDINT) MachineErrors, (UDINT) "No errors present");
+						MachineControl.Status.AutoAlarm1 = 0;
+						MachineControl.Status.AutoAlarm2 = 0;
+						MachineControl.Status.AutoAlarm3 = 0;
+						MachineControl.Status.AutoAlarm4 = 0;
+						MachineControl.Status.AutoAlarm5 = 0;
+						ConveyorControl.Cmd.Reset = 1;
+						CutterControl.Cmd.Reset = 1;
+						MpAxisCamSequencer_CrossCutter.ErrorReset = 1;
+						MpAxisCamSequencer_CrossCutter.GetSequence = 0;
+						MpAxisCamSequencer_CrossCutter.StartSequence = 0;
+						MachineError = 0;
+						AutomaticState = amINIT;
+					}
 			
 					break;
 			
 				case amSTOP:
+					brsstrcpy((UDINT) AutomaticStateText, (UDINT) "Stop");
+					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Machine is stopped");
 					ConveyorControl.Cmd.Stop = 1;
 					CutterControl.Cmd.Stop = 1;
 					PrintMarkControl.Cmd.Stop = 1;
@@ -210,22 +265,27 @@ void _CYCLIC ProgramCyclic(void)
 					MpAxisCamSequencer_CrossCutter.Enable = 0;
 						
 					if (AutomaticStart) {
-						OperatingState = amINIT;
+						AutomaticStop = 0;
+						AutomaticState = amINIT;
 					}
 					break;
-			
-			
 			}
-	
+			
+			// During automatic state, assign speed to the Conveyor converting from products per minute
+			ConveyorControl.Par.Velocity = ProductsPerMinVelocity * VELOCITY_SCALING_FACTOR; // Experimentally determined to get back to mm/s
+			
+			// End automatic state
 			break;
 		
 	}
-	
+	// Overall machine error boolean
+	MachineControl.Status.OverallErrorPresent = MachineError || ConveyorControl.Status.Error ||
+		CutterControl.Status.Error || PrintMarkControl.Status.Error;
 	// Assigning parameters and calling Cam Sequencer cyclically
 	MpAxisCamSeqParameters.CamSequence.Data.DataAddress = &CamAutomatParameters;
 	MpAxisCamSequencer_CrossCutter.Parameters = &MpAxisCamSeqParameters;
 	MpAxisCamSequencer(&MpAxisCamSequencer_CrossCutter);
-			
+
 }
 
 void _EXIT ProgramExit(void)

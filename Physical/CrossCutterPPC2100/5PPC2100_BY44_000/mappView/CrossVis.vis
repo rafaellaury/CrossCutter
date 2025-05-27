@@ -20,9 +20,12 @@
     <EventBindingsSet refId="ContentAlarms_eventbinding" />
     <EventBindingsSet refId="ContentMain_eventbinding" />
     <EventBindingsSet refId="ContentNewRecipe_eventbinding" />
+    <EventBindingsSet refId="ContentLogin_eventbinding" />
+    <EventBindingsSet refId="ContentLeft_eventbinding" />
   </EventBindingsSets>
   <Dialogs>
     <Dialog refId="NewRecipeDialog" />
+    <Dialog refId="LoginDialog" />
   </Dialogs>
   <Contents>
     <Content refId="ContentMain" />
@@ -32,6 +35,7 @@
     <Content refId="ContentAlarms" />
     <Content refId="ContentManual" />
     <Content refId="ContentNewRecipe" />
+    <Content refId="ContentLogin" />
   </Contents>
   <SnippetsSets />
   <VariablesSets />

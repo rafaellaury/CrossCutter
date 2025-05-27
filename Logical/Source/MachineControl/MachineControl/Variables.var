@@ -9,15 +9,21 @@ VAR
 END_VAR
 (*local variables*)
 VAR
+	ProductsPerMinVelocity : REAL := 87; (*[prod/min] Products per minute input from HMI, default is equivalent of 100 mm/s*)
 	MachineOperatingStateText : STRING[50] := 'Manual Mode'; (*String to tell which mode is active*)
 	MachineStatus : STRING[255] := 'Machine initializing'; (*Status string*)
 	MachineErrors : STRING[255] := 'No errors present'; (*Error string*)
+	MachineError : BOOL; (*True if there is an error*)
 	ManualMode : BOOL := TRUE; (*Manual mode button from HMI (machine starts in Manual mode)*)
+	AutomaticErrorText : STRING[255] := 'No errors present'; (*String variable tracking errors*)
+	AutomaticStatus : STRING[255] := 'Machine in Manual Mode'; (*Status for Automatic mode*)
+	AutomaticStateText : STRING[80] := 'Disabled'; (*String to keep track of the state for the HMI*)
 	AutomaticMode : BOOL := FALSE; (*Automatic mode button from HMI*)
 	AutomaticStart : BOOL; (*Start automatic mode button*)
 	AutomaticStop : BOOL; (*Stop button*)
 	AutomaticReset : BOOL; (*Reset button*)
 	CutterEnable : BOOL; (*Cutter enable*)
+	AverageDistance : LREAL := 70; (*[mm] average distance between products/print marks*)
 END_VAR
 (*local structures*)
 VAR
@@ -29,4 +35,5 @@ END_VAR
 VAR CONSTANT
 	STATE_STANDSTILL : USINT := 1; (*Standstill state of the cam automat*)
 	CAM_AUTOMAT_DECELERATION : REAL := 10000; (*Matching cam automat deceleration to cutter axis*)
+	VELOCITY_SCALING_FACTOR : REAL := 1.149425287; (*[(mm/s)/(products/min)] scaling factor for velocity*)
 END_VAR
