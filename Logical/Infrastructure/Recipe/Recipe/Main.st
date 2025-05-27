@@ -33,6 +33,16 @@ PROGRAM _CYCLIC
 	IF MpRecipeUIConnect.Recipe.List.MaxSelection <= 19 THEN
 		CreateNewRecipeAction;
 	END_IF
+	
+	IF LoadRecipe THEN
+		MpRecipeXml_0.FileName := ADR(selectedValue);
+		MpRecipeXml_0.Load := TRUE;
+	END_IF
+	
+	IF MpRecipeXml_0.Load = TRUE AND MpRecipeXml_0.CommandDone THEN
+		MpRecipeXml_0.Load := FALSE;
+	END_IF
+	
 		
 	// Cyclically call all function blocks
 	MpRecipeXml_0();

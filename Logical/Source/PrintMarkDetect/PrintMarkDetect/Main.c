@@ -38,22 +38,20 @@ void _CYCLIC ProgramCyclic(void)
 			if (PrintMarkControl.Cmd.Start) {
 				PrintMarkDetector.Enable = 1;
 				PrintMarkDetectorConfig.Enable = 1;
-				if (PrintMarkDetector.Active) {
-					PrintMarkState = pmDETECT;	
-				} else if (PrintMarkDetector.Error) {
-					PrintMarkControl.Status.Error = 1;
-					PrintMarkState = pmERROR;
-				}
+				PrintMarkState = pmDETECT;
 			}
 			break;
 		// DETECT STATE - enables detection
 		case pmDETECT:
-			PrintMarkDetector.Detect = 1;
+			if (PrintMarkDetector.Active) {	
+				PrintMarkDetector.Detect = 1;
+			} else if (PrintMarkDetector.Error) {
+				PrintMarkControl.Status.Error = 1;
+				PrintMarkState = pmERROR;
+			}
 			// Once detection is enabled, move to the Search state
 			if (PrintMarkDetector.DetectionActive) {
 				PrintMarkState = pmSEARCH;
-			} else if (PrintMarkDetector.Error) {
-				PrintMarkState = pmERROR;
 			}
 			break;
 		// SEARCH STATE - enables searching
@@ -84,7 +82,6 @@ void _CYCLIC ProgramCyclic(void)
 			}
 			break;
 	}
-	
 	// Calling the function blocks cyclically
 	PrintMarkDetectorConfig.Configuration->Detection.MarkWidthMonitoring.MaximumWidth = PrintMarkControl.Par.PrintMarkMaxWidth;
 	PrintMarkDetectorConfig.Configuration->Detection.MarkWidthMonitoring.MinimumWidth = PrintMarkControl.Par.PrintMarkMinWidth;

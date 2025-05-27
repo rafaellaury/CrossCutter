@@ -25,47 +25,56 @@
         <Property ID="Name" Value="Motion in cam alarm" />
         <Property ID="Message" Value="Problem occured during synchronized motion." />
         <Property ID="Severity" Value="2001" />
+        <Selector ID="Behavior" Value="PersistentAlarm" />
       </Group>
       <Group ID="[4]">
         <Property ID="Name" Value="Cam automat data alarm" />
         <Property ID="Message" Value="Error getting cam automat data" />
         <Property ID="Code" Value="2002" />
+        <Selector ID="Behavior" Value="PersistentAlarm" />
       </Group>
       <Group ID="[5]">
         <Property ID="Name" Value="Automatic mode conveyor alarm" />
         <Property ID="Message" Value="Conveyor axis error, investigate with manual mode" />
         <Property ID="Code" Value="2003" />
         <Property ID="Severity" Value="2" />
+        <Selector ID="Behavior" Value="PersistentAlarm" />
       </Group>
       <Group ID="[6]">
         <Property ID="Name" Value="Automatic initialization alarm" />
         <Property ID="Message" Value="Error while initializing automatic mode." />
         <Property ID="Code" Value="2004" />
         <Property ID="Severity" Value="2" />
+        <Selector ID="Behavior" Value="PersistentAlarm" />
       </Group>
       <Group ID="[7]">
         <Property ID="Name" Value="Automatic to Manual Alarm" />
         <Property ID="Message" Value="Error switching to Manual Mode: please stop Automatic Mode first" />
         <Property ID="Code" Value="2005" />
+        <Selector ID="Behavior" Value="PersistentAlarm" />
       </Group>
       <Group ID="[8]">
         <Property ID="Name" Value="Manual to Automatic Alarm" />
         <Property ID="Message" Value="Error switching to Automatic Mode: please stop all axes first" />
         <Property ID="Code" Value="3001" />
+        <Selector ID="Behavior" Value="PersistentAlarm" />
       </Group>
       <Group ID="[9]">
         <Property ID="Name" Value="Conveyor alarm" />
         <Property ID="Message" Value="Error active on conveyor. Please check manual mode and the logger." />
         <Property ID="Code" Value="3002" />
+        <Selector ID="Behavior" Value="PersistentAlarm" />
       </Group>
       <Group ID="[10]">
         <Property ID="Name" Value="Cutter alarm" />
         <Property ID="Message" Value="Error active on cutter. Please check manual mode and the logger." />
         <Property ID="Code" Value="3003" />
+        <Selector ID="Behavior" Value="PersistentAlarm" />
       </Group>
       <Group ID="[11]">
         <Property ID="Name" Value="Print mark alarm" />
         <Property ID="Message" Value="Error active on Print Mark. Please check the logger" />
+        <Selector ID="Behavior" Value="PersistentAlarm" />
       </Group>
     </Group>
   </Element>

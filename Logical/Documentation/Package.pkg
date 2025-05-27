@@ -2,9 +2,8 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
-    <Object Type="File" Description="Autotuning data and graphs">CrossCutter_AutoTuningTraceData.xlsx</Object>
-    <Object Type="File" Description="Project planning workbook drawio">CrossCutterProjectPlanning.drawio</Object>
     <Object Type="Package" Description="Cam automat state machine package">CamAutomatStateMachine</Object>
-    <Object Type="Package">Autotuning</Object>
+    <Object Type="Package" Description="Autotuning data">Autotuning</Object>
+    <Object Type="Package" Description="Project planning package">Planning</Object>
   </Objects>
 </Package>

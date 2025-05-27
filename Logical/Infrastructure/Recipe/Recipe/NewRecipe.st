@@ -65,7 +65,7 @@ ACTION CreateNewRecipeAction:
 			
 		DONE_1:	// if creation was successful or the creation was cancelled, the creation of the recipes is done
 		
-			IF(MpRecipeUIConnect.Status = mpRECIPE_UI_STATUS_IDLE)THEN
+			IF(MpRecipeUIConnect.Status = mpRECIPE_UI_STATUS_IDLE) THEN
 				MpRecipeRegPar_0.PVName := ADR('::MachineControl.Par.SyncRecipe');
 				RecipeCreateStepNew := IDLE;
 				MpRecipeUIConnect.Recipe.Refresh := FALSE;

@@ -8,23 +8,23 @@
       <Property ID="Role[1]" Value="Everyone" Description="Everyone" />
     </Group>
   </Element>
-  <Element ID="Admin" Type="User" Description="Username: Admin">
+  <Element ID="Isaac" Type="User" Description="Username: Isaac">
     <Property ID="UserID" Value="2" Description="User ID" />
-    <Property ID="Password" Value="R1RPGIcNYD32ozaSM1vGdiu7btBX3QGXq/hW8x7rEPT/u2swdQ0=" Description="Password: admin" />
+    <Property ID="Password" Value="GWjqg7ROVoBlZB0vRWtlXOZ6/tbpI8oNPkctekE3itPsAgJAqEc=" Description="Password: Newton" />
     <Group ID="Roles" Description="Roles assigned">
       <Property ID="Role[1]" Value="Administrators" Description="Administrator" />
     </Group>
   </Element>
-  <Element ID="Operator" Type="User" Description="Username: Operator">
+  <Element ID="Nikola" Type="User" Description="Username: Nikola">
     <Property ID="UserID" Value="3" Description="User ID" />
-    <Property ID="Password" Value="1oxx4IbVl5gz1MYBBhm0lxQ2XPLwRGw1+AjvYg+cR3kQJGxlTZ8=" Description="Password: operator" />
+    <Property ID="Password" Value="CIg2R8PDEdh6LEY/X4a3b0M1lmMjibp7G0Jp0FHE2cQ47GIlAlM=" Description="Password: Tesla" />
     <Group ID="Roles" Description="Roles assigned">
       <Property ID="Role[1]" Value="Operator" Description="Operator role" />
     </Group>
   </Element>
-  <Element ID="Service" Type="User" Description="Username: Service">
+  <Element ID="Albert" Type="User" Description="Username: Albert">
     <Property ID="UserID" Value="4" Description="User ID" />
-    <Property ID="Password" Value="AplWSZTtOAk5ErrcZRLPT24QaeciCi3roIvFBlGx5gfAFqb84co=" Description="Password: service" />
+    <Property ID="Password" Value="iLLCz5Zs8fJOW+/0Unk7bNjXKYbJYiqCgYdkEPEMJVxHeoswMTw=" Description="Password: Einstein" />
     <Group ID="Roles" Description="Roles assigned">
       <Property ID="Role[1]" Value="Service" Description="Service role" />
     </Group>

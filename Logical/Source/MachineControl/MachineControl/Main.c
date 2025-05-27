@@ -46,6 +46,9 @@ void _CYCLIC ProgramCyclic(void)
 					MachineControl.Status.ManAlarm1 = 1;
 				} else {
 					OperatingState = ccAUTOMATIC;
+					MpAxisCamSequencer_CrossCutter.GetSequence = 0;
+					MpAxisCamSequencer_CrossCutter.StartSequence = 0;
+					MpAxisCamSequencer_CrossCutter.Enable = 0;
 					MachineControl.Status.ManAlarm1 = 0;
 					ConveyorControl.Cmd.Stop = 1;
 					CutterControl.Cmd.Stop = 1;
@@ -80,8 +83,6 @@ void _CYCLIC ProgramCyclic(void)
 			CutterControl.Cmd.Reset = AutomaticReset;
 			MpAxisCamSequencer_CrossCutter.ErrorReset = AutomaticReset;
 			if (AutomaticReset) {
-				MpAxisCamSequencer_CrossCutter.GetSequence = 0;
-				MpAxisCamSequencer_CrossCutter.StartSequence = 0;
 				brsstrcpy((UDINT) MachineErrors, (UDINT) "No errors present");
 				MachineError = 0;
 				AutomaticState = amINIT;
@@ -105,11 +106,14 @@ void _CYCLIC ProgramCyclic(void)
 				case amINIT:
 					brsstrcpy((UDINT) AutomaticStateText, (UDINT) "Initializing");
 					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Machine powering and homing");
+					brsstrcpy((UDINT) AutomaticErrorText, (UDINT) "No errors, normal operation");
 				
+					PreviousCutPos = 0;
 					ConveyorControl.Cmd.Reset = 0;
 					CutterControl.Cmd.Reset = 0;
 					ConveyorControl.Cmd.Stop = 0;
 					CutterControl.Cmd.Stop = 0;
+					PrintMarkControl.Cmd.Stop = 0;
 					MpAxisCamSequencer_CrossCutter.ErrorReset = 0;
 						
 					MpAxisCamSequencer_CrossCutter.Enable = 1;
@@ -157,7 +161,6 @@ void _CYCLIC ProgramCyclic(void)
 						MachineControl.Status.AutoAlarm3 = 1;
 						brsstrcpy((UDINT) AutomaticErrorText, (UDINT) "Error getting cam automat data");
 					}
-				
 					break;
 			
 			
@@ -213,6 +216,13 @@ void _CYCLIC ProgramCyclic(void)
 					}
 					// If a cut has been made, update the factors and compensation according to inputs from recipe
 					if (CutterControl.Status.Position > 180.0) {
+						if (PreviousCutPos != 0) {
+							
+							PrintMarkControl.Status.LastCutDistance = ConveyorControl.Status.Position - PreviousCutPos;
+							PrintMarkControl.Status.AverageDistance = (PrintMarkControl.Status.LastCutDistance + PrintMarkControl.Status.AverageDistance) / Index;
+							PreviousCutPos = ConveyorControl.Status.Position;
+							Index = Index + 1;
+						}
 						CamAutomatParameters.State[2].MasterFactor = (MachineControl.Par.SyncRecipe.ConveyorDistance) * 100.0;
 						CamAutomatParameters.State[2].SlaveFactor = (MachineControl.Par.SyncRecipe.DegreesAfter + MachineControl.Par.SyncRecipe.DegreesBefore) * -100.0;
 						CamAutomatParameters.State[3].MasterFactor = (MachineControl.Par.SyncRecipe.ConveyorDistance) * 100.0;
@@ -237,6 +247,7 @@ void _CYCLIC ProgramCyclic(void)
 					MachineError = 1;
 					if (AutomaticReset) {
 						brsstrcpy((UDINT) MachineErrors, (UDINT) "No errors present");
+						brsstrcpy((UDINT) AutomaticErrorText, (UDINT) "No errors, normal operation");
 						MachineControl.Status.AutoAlarm1 = 0;
 						MachineControl.Status.AutoAlarm2 = 0;
 						MachineControl.Status.AutoAlarm3 = 0;
@@ -247,6 +258,7 @@ void _CYCLIC ProgramCyclic(void)
 						MpAxisCamSequencer_CrossCutter.ErrorReset = 1;
 						MpAxisCamSequencer_CrossCutter.GetSequence = 0;
 						MpAxisCamSequencer_CrossCutter.StartSequence = 0;
+						MpAxisCamSequencer_CrossCutter.Update = 0;
 						MachineError = 0;
 						AutomaticState = amINIT;
 					}
@@ -257,12 +269,9 @@ void _CYCLIC ProgramCyclic(void)
 					brsstrcpy((UDINT) AutomaticStateText, (UDINT) "Stop");
 					brsstrcpy((UDINT) AutomaticStatus, (UDINT) "Machine is stopped");
 					ConveyorControl.Cmd.Stop = 1;
-					CutterControl.Cmd.Stop = 1;
 					PrintMarkControl.Cmd.Stop = 1;
+					MpAxisCamSequencer_CrossCutter.Update = 0;
 					CutterEnable = 0;
-					
-					MpAxisCamSequencer_CrossCutter.StartSequence = 0;
-					MpAxisCamSequencer_CrossCutter.Enable = 0;
 						
 					if (AutomaticStart) {
 						AutomaticStop = 0;
@@ -273,6 +282,7 @@ void _CYCLIC ProgramCyclic(void)
 			
 			// During automatic state, assign speed to the Conveyor converting from products per minute
 			ConveyorControl.Par.Velocity = ProductsPerMinVelocity * VELOCITY_SCALING_FACTOR; // Experimentally determined to get back to mm/s
+			
 			
 			// End automatic state
 			break;

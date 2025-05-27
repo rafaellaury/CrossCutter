@@ -37,10 +37,7 @@
 <Source xsi:type="opcUa" refId="::AsGlobalPV:MachineControl.Par.SyncRecipe.ConveyorDistance" attribute="value" />
 <Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputConvDis" attribute="value" />
 </Binding>
-<Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::Recipe:MpRecipeUIConnect.Recipe.Load" attribute="value" />
-<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="MomentaryPushManualStart1" attribute="value" />
-</Binding>
+
 
 <Binding mode="twoWay">
 <Source xsi:type="opcUa" refId="::MachineCon:AutomaticStart" attribute="value" />
@@ -184,6 +181,22 @@
 <Binding mode="oneWay">
 <Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Status.TotalMissedMarks" attribute="value" />
 <Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="NumericOutputPos5" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Status.Active" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ImageMoveActive2" attribute="visible" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Status.Searching" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ImageSearching" attribute="visible" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Status.Error" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ImageError3" attribute="visible" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Recipe:LoadRecipe" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="MomentaryPushManualStart1" attribute="value" />
 </Binding>
 </Bindings>
 </BindingsSet>

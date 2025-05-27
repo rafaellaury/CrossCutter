@@ -46,6 +46,7 @@
         <Variable Name="CreateAccepted" />
         <Variable Name="CreateNewRecipe" />
         <Variable Name="CancelCreation" />
+        <Variable Name="LoadRecipe" />
       </Task>
     </Module>
   </DefaultView>

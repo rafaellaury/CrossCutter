@@ -24,6 +24,8 @@ VAR
 	AutomaticReset : BOOL; (*Reset button*)
 	CutterEnable : BOOL; (*Cutter enable*)
 	AverageDistance : LREAL := 70; (*[mm] average distance between products/print marks*)
+	Index : UDINT := 1; (*Index for average*)
+	PreviousCutPos : LREAL; (*[mm] previous position*)
 END_VAR
 (*local structures*)
 VAR
