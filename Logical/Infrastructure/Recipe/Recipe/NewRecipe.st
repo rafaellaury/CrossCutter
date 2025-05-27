@@ -28,7 +28,6 @@ ACTION CreateNewRecipeAction:
 		CREATE_1:	// Default recipe 
 			
 			// Checking values entered on HMI
-			MpRecipeRegPar_0.PVName := ADR('::Recipe:NewSyncRecipe');
 			
 			IF NewSyncRecipe.DegreesAfter <> NewSyncRecipe.DegreesBefore THEN
 				RecipeStatus := 'Degrees Before and Degrees After must be equal';
@@ -42,6 +41,9 @@ ACTION CreateNewRecipeAction:
 			END_IF
 			
 			IF CreateNewRecipe THEN
+				MachineControl.Par.SyncRecipe.DegreesBefore := NewSyncRecipe.DegreesBefore;
+				MachineControl.Par.SyncRecipe.DegreesAfter := NewSyncRecipe.DegreesAfter;
+				MachineControl.Par.SyncRecipe.ConveyorDistance := NewSyncRecipe.ConveyorDistance;
 				MpRecipeUIConnect.New.Create := TRUE;
 				NewListBoxEntry := '{"value":"';
 				Piece1 := '","text":"';
@@ -66,7 +68,6 @@ ACTION CreateNewRecipeAction:
 		DONE_1:	// if creation was successful or the creation was cancelled, the creation of the recipes is done
 		
 			IF(MpRecipeUIConnect.Status = mpRECIPE_UI_STATUS_IDLE) THEN
-				MpRecipeRegPar_0.PVName := ADR('::MachineControl.Par.SyncRecipe');
 				RecipeCreateStepNew := IDLE;
 				MpRecipeUIConnect.Recipe.Refresh := FALSE;
 			END_IF;

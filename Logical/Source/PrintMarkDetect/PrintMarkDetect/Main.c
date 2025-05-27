@@ -88,7 +88,6 @@ void _CYCLIC ProgramCyclic(void)
 	PrintMarkDetectorConfig.Configuration->Detection.ExpectationWindow.Width = PrintMarkControl.Par.WindowWidth;
 	MpRegMarkDetectionConfig(&PrintMarkDetectorConfig);
 	MpRegMarkDetection(&PrintMarkDetector);
-	
 	// Setting status variables
 	PrintMarkControl.Status.Active = PrintMarkDetector.Active;
 	PrintMarkControl.Status.ValidMarkDetected = PrintMarkDetector.DetectionTrigger;
@@ -96,7 +95,7 @@ void _CYCLIC ProgramCyclic(void)
 	PrintMarkControl.Status.TotalValidMarks = PrintMarkDetector.Info.Detection.TotalValidMarks;
 }
 
-
+// Exit subroutine
 void _EXIT ProgramExit(void)
 {
 	// Disabling the function blocks

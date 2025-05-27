@@ -194,9 +194,14 @@
 <Source xsi:type="opcUa" refId="::AsGlobalPV:PrintMarkControl.Status.Error" attribute="value" />
 <Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="ImageError3" attribute="visible" />
 </Binding>
+
 <Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::Recipe:LoadRecipe" attribute="value" />
+<Source xsi:type="opcUa" refId="::Recipe:MpRecipeUIConnect.Recipe.Load" attribute="value" />
 <Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="MomentaryPushManualStart1" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Recipe:MpRecipeUIConnect.Recipe.Delete" attribute="value" />
+<Target xsi:type="brease" contentRefId="ContentMain" widgetRefId="MomentaryPushManualReset2" attribute="value" />
 </Binding>
 </Bindings>
 </BindingsSet>

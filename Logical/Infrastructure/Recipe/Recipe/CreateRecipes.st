@@ -9,7 +9,6 @@ ACTION CreateRecipes:
 	
 	// create default recipes in case they don't exist yet on the target
 	// recipes are created by using the the MpRecipeXml instance interface
-	
 	CASE RecipeCreateStep OF
 		IDLE:	
 			

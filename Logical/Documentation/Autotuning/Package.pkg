@@ -3,5 +3,6 @@
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
     <Object Type="File" Description="Autotuning data and graphs">CrossCutter_AutoTuningTraceData.xlsx</Object>
+    <Object Type="File" Description="Tracefile">AutotuningTrace_CrossCutter.mce1</Object>
   </Objects>
 </Package>

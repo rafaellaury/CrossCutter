@@ -5,5 +5,6 @@
     <Object Type="Package" Description="Cam automat state machine package">CamAutomatStateMachine</Object>
     <Object Type="Package" Description="Autotuning data">Autotuning</Object>
     <Object Type="Package" Description="Project planning package">Planning</Object>
+    <Object Type="Package" Description="Trace data package">TraceData</Object>
   </Objects>
 </Package>

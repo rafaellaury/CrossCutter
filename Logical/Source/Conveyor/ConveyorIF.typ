@@ -15,12 +15,12 @@ TYPE
 		Status : ConveyorStatusType; (*Status variables*)
 	END_STRUCT;
 	ConveyorParType : 	STRUCT  (*Parameter structure for Conveyor*)
-		Velocity : REAL; (*Velocity parameter*)
-		Acceleration : REAL; (*Acceleration parameter*)
-		Deceleration : REAL; (*Deceleration parameter*)
-		JogVelocity : REAL; (*Jog velocity parameter*)
-		JogAcceleration : REAL; (*Jog acceleration parameter*)
-		JogDeceleration : REAL; (*Jog deceleration parameter*)
+		Velocity : REAL; (*[mm/s] Velocity parameter*)
+		Acceleration : REAL; (*[mm/s^2] Acceleration parameter*)
+		Deceleration : REAL; (*[mm/s^2] Deceleration parameter*)
+		JogVelocity : REAL; (*[mm/s] Jog velocity parameter*)
+		JogAcceleration : REAL; (*[mm/s^2] Jog acceleration parameter*)
+		JogDeceleration : REAL; (*[mm/s^2] Jog deceleration parameter*)
 	END_STRUCT;
 	ConveyorStatusType : 	STRUCT  (*Status structure for Conveyor *)
 		Position : LREAL; (*[mm] Position of the belt*)

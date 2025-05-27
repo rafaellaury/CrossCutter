@@ -33,7 +33,7 @@
       <Group ID="OutputSignals">
         <Property ID="ActualMarkPosition" Value="::PrintMarkControl.Status.ActualPosition" />
         <Property ID="MarkPositionError" Value="::PrintMarkControl.Status.PositionError" />
-        <Property ID="ActualProductLength" Value="::PrintMarkControl.Status.LastPrintMarkWidth" />
+        <Property ID="ActualProductLength" Value="::PrintMarkControl.Status.LastCutDistance" />
       </Group>
     </Group>
     <Selector ID="Alarms" Value="MpAlarmX" Description="Prebuilt MpAlarmX alarms">

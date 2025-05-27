@@ -1,9 +1,9 @@
-(*********************************************************************************
- * Copyright:   B&R Industrial Automation GmbH 
- * Author:      lauryr 
- * Created:     May 22, 2025/10:27 PM 
- * Description: Structured text program implementing simple alarm handling
- *********************************************************************************)
+//********************************************************************************
+// Copyright:   B&R Industrial Automation GmbH 
+// Author:      lauryr 
+// Created:     May 22, 2025/10:27 PM 
+// Description: Structured text program implementing simple alarm handling
+//********************************************************************************)
 
 PROGRAM _INIT
 	
@@ -97,7 +97,7 @@ PROGRAM _CYCLIC
 	ELSE
 		MpAlarmXReset(gCrossCutAlarmXCore, 'Print mark alarm');
 	END_IF
-	
+	// Overall error triggers alarm icon on Alarm page
 	IF MachineControl.Status.OverallErrorPresent THEN
 		AlarmString := 'Media/SymbolLib/Alarm/Alarm.svg';
 	ELSE

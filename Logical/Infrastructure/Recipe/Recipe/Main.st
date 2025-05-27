@@ -1,9 +1,9 @@
-(*********************************************************************************
- * Copyright:   B&R Industrial Automation GmbH 
- * Author:      lauryr 
- * Created:     May 22, 2025/10:31 PM 
- * Description: Recipe system to specify the synchronized section
- *********************************************************************************)
+//********************************************************************************
+// Copyright:   B&R Industrial Automation GmbH 
+// Author:      lauryr 
+// Created:     May 22, 2025/10:31 PM 
+// Description: Recipe system to specify the synchronized section
+//********************************************************************************)
 
 PROGRAM _INIT
 	
@@ -33,17 +33,10 @@ PROGRAM _CYCLIC
 	IF MpRecipeUIConnect.Recipe.List.MaxSelection <= 19 THEN
 		CreateNewRecipeAction;
 	END_IF
-	
-	IF LoadRecipe THEN
-		MpRecipeXml_0.FileName := ADR(selectedValue);
-		MpRecipeXml_0.Load := TRUE;
+	// If Delete button is pressed, remove recipe from list box
+	IF MpRecipeUIConnect.Recipe.Delete THEN
+		RecipeList[MpRecipeUIConnect.Recipe.List.SelectedIndex] := '';
 	END_IF
-	
-	IF MpRecipeXml_0.Load = TRUE AND MpRecipeXml_0.CommandDone THEN
-		MpRecipeXml_0.Load := FALSE;
-	END_IF
-	
-		
 	// Cyclically call all function blocks
 	MpRecipeXml_0();
 	MpRecipeRegPar_0();

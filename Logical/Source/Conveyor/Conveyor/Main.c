@@ -11,7 +11,6 @@
 #include <AsDefault.h>
 #endif
 
-
 // Helper function to assign parameters cyclically
 void AssignParameters()
 {
@@ -30,7 +29,6 @@ void AssignParameters()
 
 void _INIT ProgramInit(void)
 {
-	
 	// Setting maximum values for velocity, acceleration, deceleration
 	ConveyorControl.Par.Velocity = MAX_CONVEYOR_VELOCITY;
 	ConveyorControl.Par.Acceleration = MAX_CONVEYOR_ACCELERATION;
@@ -56,7 +54,6 @@ void _INIT ProgramInit(void)
 	MC_BR_ProcessParID_Conveyor.DataAddress = (UDINT) &EncoderProcessParIDType;
 	MC_BR_ProcessParID_Conveyor.Mode = mcACPAX_PARID_SET;
 	MC_BR_ProcessParID_Conveyor.NumberOfParIDs = 1;
-	
 }
 
 void _CYCLIC ProgramCyclic(void)
@@ -66,13 +63,10 @@ void _CYCLIC ProgramCyclic(void)
 		ConveyorControl.Cmd.Stop = 0;
 		MotionControlState = mcSTOP;
 	}
-	
 	// Setting the reset button to error reset
 	MpAxisBasic_Conveyor.ErrorReset = ConveyorControl.Cmd.Reset;
-	
 	// MOTION CONTROL STATE MACHINE
 	switch (MotionControlState) {
-		
 		// Initial state, wait for Start command and then move to power on state
 		case mcINIT:
 			brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor initializing");
@@ -89,6 +83,7 @@ void _CYCLIC ProgramCyclic(void)
 				}
 				ConveyorControl.Status.ReadyToStart = 1;
 				brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor ready to start");
+				// If Start command is received, move to POWER state
 				if (ConveyorControl.Cmd.Start) {
 					if (MpAxisBasic_Conveyor.Info.ReadyToPowerOn) {
 						ConveyorControl.Status.ReadyToStart = 0;
@@ -108,11 +103,11 @@ void _CYCLIC ProgramCyclic(void)
 				}
 			}
 			break;
-		
 		// Power state, if not already powered on, power on the axis and move on to home
 		case mcPOWER:
 			brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor powering on");
 			brsstrcpy((UDINT) ConveyorControl.Status.State, (UDINT) "Power");
+			// Power it on and then move to Home state
 			if (!MpAxisBasic_Conveyor.PowerOn && !MpAxisBasic_Conveyor.Error) {
 				MpAxisBasic_Conveyor.Power = 1;
 			} else if (MpAxisBasic_Conveyor.PowerOn && !MpAxisBasic_Conveyor.Error) {
@@ -123,23 +118,24 @@ void _CYCLIC ProgramCyclic(void)
 				MpAxisBasic_Conveyor.ErrorReset = 0;
 			}
 			break;
-		
+		// Reset error state, used to clear Encoder error or any other errors before proceeding
 		case mcRESET_ERROR:
 			if (MpAxisBasic_Conveyor.Error && !MpAxisBasic_Conveyor.ErrorReset) {
 				MpAxisBasic_Conveyor.ErrorReset = 1;
 			} else if (!MpAxisBasic_Conveyor.Error) {
+				// once error is cleared, try Powering again
 				MpAxisBasic_Conveyor.ErrorReset = 0;
 				MotionControlState = mcPOWER;
 			} else {
 				MotionControlState = mcERROR;
 				brsstrcpy((UDINT) ConveyorControl.Status.ErrorText, (UDINT) "Error while powering up, check active alarms");
 				MpAxisBasic_Conveyor.Error = 1;
-			}
-		
+			}		
 		// Homing state, if not already homed, home the axis and move to ready for command
 		case mcHOME:
 			brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor homing");
 			brsstrcpy((UDINT) ConveyorControl.Status.State, (UDINT) "Homing");
+			// If not already homed, home the axis
 			if (!MpAxisBasic_Conveyor.IsHomed && !MpAxisBasic_Conveyor.Error) {
 				MpAxisBasic_Conveyor.Home = 1;
 			} else if (MpAxisBasic_Conveyor.IsHomed && !MpAxisBasic_Conveyor.Error) {
@@ -198,7 +194,6 @@ void _CYCLIC ProgramCyclic(void)
 				MpAxisBasic_Conveyor.JogNegative = 0;
 			}
 			break;
-		
 		// Stop state, conveyor has been stopped
 		case mcSTOP:
 			brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor stopped");
@@ -207,6 +202,7 @@ void _CYCLIC ProgramCyclic(void)
 			ConveyorControl.Cmd.MoveVelocity = 0;
 			ConveyorControl.Cmd.JogForward = 0;
 			ConveyorControl.Cmd.JogBackward = 0;
+			// Stop the axis
 			if (MpAxisBasic_Conveyor.MoveActive && !MpAxisBasic_Conveyor.Error && MpAxisBasic_Conveyor.Info.PLCopenState != mcAXIS_STOPPING) {
 				MC_Halt_Conveyor.Execute = 1;
 			} else if (MpAxisBasic_Conveyor.Error) {
@@ -221,7 +217,6 @@ void _CYCLIC ProgramCyclic(void)
 				ConveyorControl.Status.ReadyToStart = 1;
 			}
 			break;
-
 		// Error state, must reset to clear
 		case mcERROR:
 			brsstrcpy((UDINT) ConveyorControl.Status.Status, (UDINT) "Conveyor in error, needs to be reset");
@@ -242,10 +237,8 @@ void _CYCLIC ProgramCyclic(void)
 			}
 			break;
 	}
-	
 	// Setting the MpAxisParametersConveyor structure values cyclically
 	AssignParameters();
-		
 	// Assigning the address of the parameters to the Parameters of the MpAxisBasic function block
 	MpAxisBasic_Conveyor.Parameters = &MpAxisParametersConveyor;
 	// Calling the function block cyclically
@@ -256,16 +249,13 @@ void _CYCLIC ProgramCyclic(void)
 	ConveyorControl.Status.MoveActive = MpAxisBasic_Conveyor.MoveActive;
 	ConveyorControl.Status.Error = MpAxisBasic_Conveyor.Error;
 	ConveyorControl.Status.StatusID = MpAxisBasic_Conveyor.StatusID;
-	
 	// Calling the function block
 	MC_BR_ProcessParID_AcpAx(&MC_BR_ProcessParID_Conveyor);
-	
 	// Calling MC_Halt function block cyclically and assigning deceleration
 	MC_Halt_Conveyor.Deceleration = MpAxisParametersConveyor.Deceleration;
 	MC_Halt(&MC_Halt_Conveyor);
-
 }
-
+// Exit subroutine
 void _EXIT ProgramExit(void)
 {
 

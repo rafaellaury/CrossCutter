@@ -26,6 +26,7 @@ VAR
 	AverageDistance : LREAL := 70; (*[mm] average distance between products/print marks*)
 	Index : UDINT := 1; (*Index for average*)
 	PreviousCutPos : LREAL; (*[mm] previous position*)
+	OldLastCut : USINT; (*[mm] last cut position*)
 END_VAR
 (*local structures*)
 VAR
